@@ -1,4 +1,4 @@
+com\birgit\swhotel\model\UserModel.class
 com\birgit\swhotel\service\UserService.class
 com\birgit\swhotel\entity\User.class
 com\birgit\swhotel\entity\User_.class
-model\UserModel.class

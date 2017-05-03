@@ -1,39 +1,36 @@
+
 package com.birgit.swhotel.service;
 
+import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.User;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 @RequestScoped
-public class UserService 
+public class BookingService 
 {
     @PersistenceContext(unitName="SwHotelPU")
     private EntityManager entityManager;
     
     // Schreibzugriff
     @Transactional
-    public User createUser(User user)
+    public Booking addBooking(Booking booking)
     {
-        entityManager.persist(user);
-        return user;
+        entityManager.persist(booking);
+        return booking;
     }
     
     // Lesezugriff
-    public List<User> getAllUsers()
+    public List<Booking> getAllBookings()
     {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User AS u", User.class);
-        List<User> result = query.getResultList();
+        TypedQuery<Booking> query = entityManager.createQuery("SELECT b FROM Booking AS b", Booking.class);
+        List<Booking> result = query.getResultList();
         return result;
     }
     
-    public User getUserById(long id)
-    {
-        User user = entityManager.find(User.class, id);
-        return user;
-    }
+    
 }

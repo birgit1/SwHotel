@@ -2,30 +2,31 @@
 package com.birgit.swhotel.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="TUser")
-public class User implements Serializable 
+public class User extends EntityClass implements Serializable 
 {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     private String email;
     private String password;
     private String name;
+    
+    @OneToMany(mappedBy="user")
+    private List<Booking> bookings;
 
     public User ()
-    {
-        
+    { 
+        bookings = new ArrayList<>();
     }
     
     public User(String email, String password, String name)
@@ -35,6 +36,7 @@ public class User implements Serializable
         this.name = name;
     }
     
+    // Getter and Setter ***********************
     public String getEmail() {
         return email;
     }
@@ -59,39 +61,21 @@ public class User implements Serializable
         this.name = name;
     }
 
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBooking(Booking booking) {
+        bookings.add(booking);
+    }
     
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String toString() 
+    {
+        return "User{" + "email=" + email + ", password=" + password + ", name=" + name + '}';
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.birgit.swhotel.entity.User[ id=" + id + " ]";
-    }
     
 }
