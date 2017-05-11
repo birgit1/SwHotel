@@ -8,21 +8,21 @@
     <h:body>
         Welcome to SW-Hotels
         
-        <h1> User </h1>
+        <h1> User *********************************************</h1>
         <h:form>
             Name:
-            <h:inputText value="#{userModel.username}"/>
+            <h:inputText value="#{genModel.username}"/>
             email:
-            <h:inputText value="#{userModel.email}"/>
+            <h:inputText value="#{genModel.email}"/>
             password:
-            <h:inputText value="#{userModel.password}"/>
-            <h:commandButton action="#{userModel.addUser()}" value="register"/>
+            <h:inputText value="#{genModel.password}"/>
+            <h:commandButton action="#{genModel.addUser()}" value="add"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{userModel.getAllUsers()}" value="register"/>
+             <h:commandButton action="#{genModel.getAllUsers()}" value="list"/>
         
-             <h:dataTable var="u" value="#{userModel.getAllUsers()}">
+             <h:dataTable var="u" value="#{genModel.getAllUsers()}">
                         <h:column>
                             <h:outputText value="#{u.name}"/>
                         </h:column>
@@ -33,27 +33,26 @@
                             <h:outputText value="#{u.id}"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{userModel.delete(u)}" value="X"/>
+                            <h:commandButton action="#{genModel.delete(u)}" value="X"/>
                         </h:column>
                     </h:dataTable>
         </h:form>
-        
-        
-        <h1> Hotel </h1>
+         
+        <h1> Hotel *******************************************</h1>
         <h:form>
             Name
-            <h:inputText value="#{userModel.hotelName}"/>
+            <h:inputText value="#{genModel.hotelName}"/>
             city
-            <h:inputText value="#{userModel.city}"/>
+            <h:inputText value="#{genModel.city}"/>
             country
-            <h:inputText value="#{userModel.country}"/>
-            <h:commandButton action="#{userModel.addHotel()}" value="register"/>
+            <h:inputText value="#{genModel.country}"/>
+            <h:commandButton action="#{genModel.addHotel()}" value="add"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{userModel.getAllHotels()}" value="register"/>
+             <h:commandButton action="#{genModel.getAllHotels()}" value="list"/>
         
-             <h:dataTable var="u" value="#{userModel.getAllHotels()}">
+             <h:dataTable var="u" value="#{genModel.getAllHotels()}">
                         <h:column>
                             <h:outputText value="#{u.name}"/>
                         </h:column>
@@ -63,22 +62,23 @@
                         
                     </h:dataTable>
         </h:form>
-        
-        <h1> RoomType </h1>
+       
+ 
+        <h1> RoomType ********************************************</h1>
         <h:form>
             room type name
-            <h:inputText value="#{userModel.roomTypeName}"/>
+            <h:inputText value="#{genModel.roomTypeName}"/>
             beds
-            <h:inputText value="#{userModel.beds}"/>
+            <h:inputText value="#{genModel.beds}"/>
             price
-            <h:inputText value="#{userModel.standardPrice}"/>
-            <h:commandButton action="#{userModel.addRoomType()}" value="register"/>
+            <h:inputText value="#{genModel.standardPrice}"/>
+            <h:commandButton action="#{genModel.addRoomType()}" value="add"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{userModel.getAllRoomTypes()}" value="register"/>
+             <h:commandButton action="#{genModel.getAllRoomTypes()}" value="list"/>
         
-             <h:dataTable var="u" value="#{userModel.getAllRoomTypes()}">
+             <h:dataTable var="u" value="#{genModel.getAllRoomTypes()}">
                         <h:column>
                             <h:outputText value="#{u.roomName}"/>
                         </h:column>
@@ -92,25 +92,25 @@
                             <h:outputText value="#{u.id}"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{userModel.delete(u)}" value="X"/>
+                            <h:commandButton action="#{genModel.delete(u)}" value="X"/>
                         </h:column>
                     </h:dataTable>
         </h:form>
         
-        <h1> Room </h1>
+        <h1> Room *******************************************</h1>
         <h:form>
             roomTypeId
-            <h:inputText value="#{userModel.room_roomTypeId}"/>
+            <h:inputText value="#{genModel.room_roomTypeId}"/>
             hotelId
-            <h:inputText value="#{userModel.room_hotelId}"/>
+            <h:inputText value="#{genModel.room_hotelId}"/>
           
-            <h:commandButton action="#{userModel.addRoom()}" value="register"/>
+            <h:commandButton action="#{genModel.addRoom()}" value="add"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{userModel.getAllRooms()}" value="register"/>
+             <h:commandButton action="#{genModel.getAllRooms()}" value="list"/>
         
-             <h:dataTable var="u" value="#{userModel.getAllRooms()}">
+             <h:dataTable var="u" value="#{genModel.getAllRooms()}">
                         <h:column>
                             <h:outputText value="#{u.id}"/>
                         </h:column>
@@ -118,20 +118,20 @@
                     </h:dataTable>
         </h:form>
         
-        <h1> Booking </h1>
+        <h1> Booking *********************************************************</h1>
         <h:form>
             user id
-            <h:inputText value="#{userModel.booking_userId}"/>
+            <h:inputText value="#{genModel.booking_userId}"/>
             room id
-            <h:inputText value="#{userModel.booking_roomId}"/>
+            <h:inputText value="#{genModel.booking_roomId}"/>
             
-            <h:commandButton action="#{userModel.addBooking()}" value="register"/>
+            <h:commandButton action="#{genModel.addBooking()}" value="register"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{userModel.getAllBookings()}" value="register"/>
+             <h:commandButton action="#{genModel.getAllBookings()}" value="register"/>
         
-             <h:dataTable var="u" value="#{userModel.getAllBookings()}">
+             <h:dataTable var="u" value="#{genModel.getAllBookings()}">
                         <h:column>
                             <h:outputText value="#{u.id}"/>
                         </h:column>
@@ -139,8 +139,7 @@
                    
                     </h:dataTable>
         </h:form>
-       
- 
+        
     </h:body>
     
     

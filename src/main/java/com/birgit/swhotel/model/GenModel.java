@@ -22,7 +22,7 @@ import javax.inject.Named;
     
 @Named
 @RequestScoped
-public class UserModel implements Serializable 
+public class GenModel implements Serializable 
 {
     public static final long serialVersionUID = 1L;
     @Inject
@@ -66,12 +66,15 @@ public class UserModel implements Serializable
         System.out.println("hotel added "+hotel.getId());
     }
     
-    private long room_roomTypeId;
-    private long room_hotelId;
+    private int room_roomTypeId;
+    private int room_hotelId;
     public void addRoom()
     {
         Room room = new Room();
-        
+        Hotel hotel = hotelService.getHotelById(room_hotelId);
+        room.setHotel(hotel);
+        RoomType roomType = roomService.getRoomTypeById(room_roomTypeId);
+        room.setRoomType(roomType);
         roomService.addRoom(room);
         System.out.println("room added "+room.getId());
     }
@@ -90,13 +93,14 @@ public class UserModel implements Serializable
     }
     
     
-    private long booking_userId;
-    private long booking_roomId;
+    private int booking_userId;
+    private int booking_roomId;
     public void addBooking()
     {
         Booking booking = new Booking();
         User user = userService.getUserById(booking_userId);
         booking.setUser(user);
+        Room room = roomService.getRoomById(booking_roomId);
         bookingService.addBooking(booking);
         System.out.println("booking added "+booking.getId());
     }
@@ -106,14 +110,18 @@ public class UserModel implements Serializable
     private List<User> userlist = new ArrayList<>();
     public List<User> getAllUsers()
     {
+        System.out.println("get all users");
         userlist = userService.getAllUsers();
+        System.out.println("# user: "+userlist.size());
         return userlist;
     }
     
     private List<Hotel> hotelList = new ArrayList<>();
     public List<Hotel> getAllHotels()
     {
+        System.out.println("get all hotels");
         hotelList = hotelService.getAllHotels();
+        System.out.println("# hotels: "+hotelList.size());
         return hotelList;
     }
     
@@ -165,38 +173,6 @@ public class UserModel implements Serializable
         this.password = password;
     }
 
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public BookingService getBookingService() {
-        return bookingService;
-    }
-
-    public void setBookingService(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
-
-    public HotelService getHotelService() {
-        return hotelService;
-    }
-
-    public void setHotelService(HotelService hotelService) {
-        this.hotelService = hotelService;
-    }
-
-    public RoomService getRoomService() {
-        return roomService;
-    }
-
-    public void setRoomService(RoomService roomService) {
-        this.roomService = roomService;
-    }
-
     public String getHotelName() {
         return hotelName;
     }
@@ -221,19 +197,19 @@ public class UserModel implements Serializable
         this.country = country;
     }
 
-    public long getRoom_roomTypeId() {
+    public int getRoom_roomTypeId() {
         return room_roomTypeId;
     }
 
-    public void setRoom_roomTypeId(long room_roomTypeId) {
+    public void setRoom_roomTypeId(int room_roomTypeId) {
         this.room_roomTypeId = room_roomTypeId;
     }
 
-    public long getRoom_hotelId() {
+    public int getRoom_hotelId() {
         return room_hotelId;
     }
 
-    public void setRoom_hotelId(long room_hotelId) {
+    public void setRoom_hotelId(int room_hotelId) {
         this.room_hotelId = room_hotelId;
     }
 
@@ -261,19 +237,19 @@ public class UserModel implements Serializable
         this.standardPrice = standardPrice;
     }
 
-    public long getBooking_userId() {
+    public int getBooking_userId() {
         return booking_userId;
     }
 
-    public void setBooking_userId(long booking_userId) {
+    public void setBooking_userId(int booking_userId) {
         this.booking_userId = booking_userId;
     }
 
-    public long getBooking_roomId() {
+    public int getBooking_roomId() {
         return booking_roomId;
     }
 
-    public void setBooking_roomId(long booking_roomId) {
+    public void setBooking_roomId(int booking_roomId) {
         this.booking_roomId = booking_roomId;
     }
 

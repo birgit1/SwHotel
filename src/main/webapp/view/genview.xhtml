@@ -8,7 +8,7 @@
     <h:body>
         Welcome to SW-Hotels
         
-        <h1> User *********************************************</h1>
+        <h1> User </h1>
         <h:form>
             Name:
             <h:inputText value="#{genModel.username}"/>
@@ -16,11 +16,11 @@
             <h:inputText value="#{genModel.email}"/>
             password:
             <h:inputText value="#{genModel.password}"/>
-            <h:commandButton action="#{genModel.addUser()}" value="add"/>
+            <h:commandButton action="#{genModel.addUser()}" value="register"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{genModel.getAllUsers()}" value="list"/>
+             <h:commandButton action="#{genModel.getAllUsers()}" value="register"/>
         
              <h:dataTable var="u" value="#{genModel.getAllUsers()}">
                         <h:column>
@@ -37,8 +37,9 @@
                         </h:column>
                     </h:dataTable>
         </h:form>
-         
-        <h1> Hotel *******************************************</h1>
+        
+        
+        <h1> Hotel </h1>
         <h:form>
             Name
             <h:inputText value="#{genModel.hotelName}"/>
@@ -46,11 +47,11 @@
             <h:inputText value="#{genModel.city}"/>
             country
             <h:inputText value="#{genModel.country}"/>
-            <h:commandButton action="#{genModel.addHotel()}" value="add"/>
+            <h:commandButton action="#{genModel.addHotel()}" value="register"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{genModel.getAllHotels()}" value="list"/>
+             <h:commandButton action="#{genModel.getAllHotels()}" value="register"/>
         
              <h:dataTable var="u" value="#{genModel.getAllHotels()}">
                         <h:column>
@@ -62,9 +63,8 @@
                         
                     </h:dataTable>
         </h:form>
-       
- 
-        <h1> RoomType ********************************************</h1>
+        
+        <h1> RoomType </h1>
         <h:form>
             room type name
             <h:inputText value="#{genModel.roomTypeName}"/>
@@ -72,11 +72,11 @@
             <h:inputText value="#{genModel.beds}"/>
             price
             <h:inputText value="#{genModel.standardPrice}"/>
-            <h:commandButton action="#{genModel.addRoomType()}" value="add"/>
+            <h:commandButton action="#{genModel.addRoomType()}" value="register"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{genModel.getAllRoomTypes()}" value="list"/>
+             <h:commandButton action="#{genModel.getAllRoomTypes()}" value="register"/>
         
              <h:dataTable var="u" value="#{genModel.getAllRoomTypes()}">
                         <h:column>
@@ -97,18 +97,18 @@
                     </h:dataTable>
         </h:form>
         
-        <h1> Room *******************************************</h1>
+        <h1> Room </h1>
         <h:form>
             roomTypeId
             <h:inputText value="#{genModel.room_roomTypeId}"/>
             hotelId
             <h:inputText value="#{genModel.room_hotelId}"/>
           
-            <h:commandButton action="#{genModel.addRoom()}" value="add"/>
+            <h:commandButton action="#{genModel.addRoom()}" value="register"/>
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{genModel.getAllRooms()}" value="list"/>
+             <h:commandButton action="#{genModel.getAllRooms()}" value="register"/>
         
              <h:dataTable var="u" value="#{genModel.getAllRooms()}">
                         <h:column>
@@ -118,7 +118,7 @@
                     </h:dataTable>
         </h:form>
         
-        <h1> Booking *********************************************************</h1>
+        <h1> Booking </h1>
         <h:form>
             user id
             <h:inputText value="#{genModel.booking_userId}"/>
@@ -139,7 +139,8 @@
                    
                     </h:dataTable>
         </h:form>
-        
+       
+ 
     </h:body>
     
     

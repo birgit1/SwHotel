@@ -31,7 +31,7 @@ public class UserService
         return result;
     }
     
-    public User getUserById(long id)
+    public User getUserById(int id)
     {
         User user = entityManager.find(User.class, id);
         return user;

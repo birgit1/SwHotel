@@ -32,8 +32,9 @@ public class HotelService
         return result;
     }
     
-    public Hotel getHotelById(long id)
+    public Hotel getHotelById(int id)
     {
+        System.out.println("get hotel: "+id);
         Hotel hotel = entityManager.find(Hotel.class, id);
         return hotel;
     }

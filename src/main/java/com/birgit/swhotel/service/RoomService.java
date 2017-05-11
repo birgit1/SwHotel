@@ -34,7 +34,7 @@ public class RoomService
         return result;
     }
     
-    public Room getRoomById(long id)
+    public Room getRoomById(int id)
     {
         Room room = entityManager.find(Room.class, id);
         return room;
@@ -56,8 +56,9 @@ public class RoomService
         return result;
     }
     
-    public RoomType getRoomTypeById(long id)
+    public RoomType getRoomTypeById(int id)
     {
+        System.out.println("getRoomTypeById");
         RoomType roomType = entityManager.find(RoomType.class, id);
         return roomType;
     }
