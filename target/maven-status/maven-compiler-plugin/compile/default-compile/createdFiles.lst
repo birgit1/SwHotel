@@ -1,5 +1,5 @@
-com\birgit\swhotel\model\UserModel.class
 com\birgit\swhotel\entity\RoomType.class
+com\birgit\swhotel\model\HotelModel.class
 com\birgit\swhotel\entity\User.class
 com\birgit\swhotel\entity\Address_.class
 com\birgit\swhotel\entity\Room_.class

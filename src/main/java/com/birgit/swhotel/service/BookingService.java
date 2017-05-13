@@ -2,7 +2,6 @@
 package com.birgit.swhotel.service;
 
 import com.birgit.swhotel.entity.Booking;
-import com.birgit.swhotel.entity.User;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -21,6 +20,14 @@ public class BookingService
     public Booking addBooking(Booking booking)
     {
         entityManager.persist(booking);
+        return booking;
+    }
+    
+    @Transactional
+    public Booking deleteHotel(Booking booking)
+    {
+        booking = entityManager.merge(booking);
+        entityManager.remove(booking);
         return booking;
     }
     

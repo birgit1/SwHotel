@@ -20,8 +20,8 @@
         </h:form>
         
         <h:form>
-             <h:commandButton action="#{genModel.getAllUsers()}" value="list"/>
-        
+             <h:link value="go to user page" outcome="users"/>
+             <h:link value="go to hotel page" outcome="hotels"/>
              <h:dataTable var="u" value="#{genModel.getAllUsers()}">
                         <h:column>
                             <h:outputText value="#{u.name}"/>
@@ -33,7 +33,7 @@
                             <h:outputText value="#{u.id}"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{genModel.delete(u)}" value="X"/>
+                            <h:commandButton action="#{genModel.deleteUser(u)}" value="X"/>
                         </h:column>
                     </h:dataTable>
         </h:form>
@@ -110,13 +110,20 @@
         <h:form>
              <h:commandButton action="#{genModel.getAllRooms()}" value="list"/>
         
-             <h:dataTable var="u" value="#{genModel.getAllRooms()}">
+             <h:dataTable var="r" value="#{genModel.getAllRooms()}">
                         <h:column>
-                            <h:outputText value="#{u.id}"/>
+                            <h:outputText value="#{r.id}"/>
                         </h:column>
-   
+                        <h:column>
+                            <h:outputText value="#{r.price}"/>
+                        </h:column>
+                    <h:column>
+                        <h:commandButton action="#{genModel.deleteRoom(r)}" value="X"/>
+                    </h:column>
                     </h:dataTable>
+             <h:commandButton action="#{genModel.testDelete()}" value="delete"/>
         </h:form>
+        
         
         <h1> Booking *********************************************************</h1>
         <h:form>

@@ -55,6 +55,13 @@ public class GenModel implements Serializable
         System.out.println("user added "+user.getId());
     }
     
+    public void deleteUser(User user)
+    {
+        System.out.println("0) user deleted: "+user.getId());
+        userService.deleteUser(user);
+        System.out.println("user deleted: "+user.getId());
+    }
+    
     
     public void addHotel()
     {
@@ -77,6 +84,25 @@ public class GenModel implements Serializable
         room.setRoomType(roomType);
         roomService.addRoom(room);
         System.out.println("room added "+room.getId());
+    }
+    
+    public void deleteRoom(Room room)
+    {
+        System.out.println("delete room");
+        roomService.deleteRoom(room);
+        System.out.println("room deleted");
+    }
+    
+    public void testDelete()
+    {
+        System.out.println("delete TEST ***********************+");
+        try{
+        userService.testDelete();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("excpetion*********************");
+        }
     }
     
     private String roomTypeName;
@@ -110,7 +136,6 @@ public class GenModel implements Serializable
     private List<User> userlist = new ArrayList<>();
     public List<User> getAllUsers()
     {
-        System.out.println("get all users");
         userlist = userService.getAllUsers();
         System.out.println("# user: "+userlist.size());
         return userlist;
@@ -119,7 +144,6 @@ public class GenModel implements Serializable
     private List<Hotel> hotelList = new ArrayList<>();
     public List<Hotel> getAllHotels()
     {
-        System.out.println("get all hotels");
         hotelList = hotelService.getAllHotels();
         System.out.println("# hotels: "+hotelList.size());
         return hotelList;
@@ -129,6 +153,7 @@ public class GenModel implements Serializable
     public List<RoomType> getAllRoomTypes()
     {
         roomTypeList = roomService.getAllRoomTypes();
+        System.out.println("# roomTypes: "+roomTypeList.size());
         return roomTypeList;
     }
     
@@ -136,6 +161,7 @@ public class GenModel implements Serializable
     public List<Room> getAllRooms()
     {
         roomList = roomService.getAllRooms();
+        System.out.println("# rooms: "+roomList.size());
         return roomList;
     }
     
@@ -143,6 +169,7 @@ public class GenModel implements Serializable
     public List<Booking> getAllBookings()
     {
         bookingsList = bookingService.getAllBookings();
+        System.out.println("# bookings: "+bookingsList.size());
         return bookingsList;
     }
     

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>SwHotels</title>
+    </h:head>
+
+    <h:body>
+
+        <!-- header -->
+        <div id="top">
+            <ui:insert name="top">Welcome at SwHotels<br/></ui:insert>
+            <h:panelGrid columns="4">
+                <h:form>
+                    <h:commandLink value="Admin Home" action="admin"/>
+                    &nbsp;
+                    <h:commandLink value="General" action="home"/>
+                    &nbsp;
+                    <h:commandLink value="Hotels" action="hotels"/>
+                    &nbsp;
+                    <h:commandLink value="User" action="users"/>
+                </h:form>
+            </h:panelGrid>
+            <p>
+                _________________________________________________________
+            </p>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">_______________________________________________ </ui:insert>
+            <p> all rights reserved </p>
+            <p> SwHotels </p>
+        </div>
+
+    </h:body>
+
+</html>

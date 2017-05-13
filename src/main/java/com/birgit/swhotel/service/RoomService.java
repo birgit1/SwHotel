@@ -9,6 +9,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -23,6 +24,14 @@ public class RoomService
     public Room addRoom(Room room)
     {
         entityManager.persist(room);
+        return room;
+    }
+    
+    @Transactional
+    public Room deleteRoom(Room room)
+    {
+        room = entityManager.merge(room);
+        entityManager.remove(room);
         return room;
     }
     
@@ -46,6 +55,14 @@ public class RoomService
     {
         entityManager.persist(room);
         return room;
+    }
+    
+    @Transactional
+    public RoomType deleteRoomType(RoomType roomType)
+    {
+        roomType = entityManager.merge(roomType);
+        entityManager.remove(roomType);
+        return roomType;
     }
     
     // Lesezugriff
