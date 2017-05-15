@@ -65,9 +65,11 @@ public class User extends EntityClass implements Serializable
         return bookings;
     }
 
-    public void setBooking(Booking booking) {
+    public void setBooking(Booking booking) 
+    {
         bookings.add(booking);
     }
+    
     
     
 

@@ -27,10 +27,39 @@
                  <p>
                             <h:outputText value="#{hotelModel.currentHotel.address.address}"/>
                  </p>
+                 <h:form>
+                 date dd/mm/yyyy
+                 <h:inputText value="#{hotelModel.dateDay}"/>
+                 <h:inputText value="#{hotelModel.dateMonth}"/>
+                 <h:inputText value="#{hotelModel.dateYear}"/>
+                 nights
+                 <h:inputText value="#{hotelModel.nights}"/>
                  <p>
-                           <h:commandButton action="#{hotelModel.book()}" value="Book"/>
+                     <h:commandButton action="#{hotelModel.checkAvailability()}" value="check availability"/>
+                          
                  </p>
-                 
+                 </h:form>
+                   <h:form>
+                     <h:dataTable var="r" value="#{hotelModel.rooms}">
+                       
+                        <h:column>
+                            <h:outputText value="#{r.id}"/>
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{r.hotel.name}"/>
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{r.roomType.roomName}"/>
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{r.roomType.standardPrice}"/>
+                        </h:column>
+                        <h:column>
+                            <h:commandButton action="#{hotelModel.bookRoom(r)}" value="book"/>
+                        </h:column>
+                       
+                    </h:dataTable>
+                 </h:form>
              </ui:define>
          </ui:composition>
     </h:body>

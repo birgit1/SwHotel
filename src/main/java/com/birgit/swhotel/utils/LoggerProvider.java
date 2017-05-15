@@ -1,12 +1,14 @@
 
-package com.birgit.swhotel.technical;
+package com.birgit.swhotel.utils;
 
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 
 
-public class LoggerFactory 
+@Dependent
+public class LoggerProvider 
 {
 	@Produces
 	public Logger getLogger(InjectionPoint injectionPoint)

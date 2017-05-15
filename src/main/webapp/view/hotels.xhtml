@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sw Hotels</title>
     </h:head>
@@ -18,6 +19,14 @@
                      <h:inputText value="#{hotelModel.search}"/>
                      <h:commandButton action="#{hotelModel.searchHotel()}" value="search"/>
                  </h:form>
+                 
+                 <!-- auswahlMenü -->
+                 
+                 <h:selectOneMenu value="#{hotelModel.currentHotel}">
+                     <f:converter binding="#{hotelConverter}"/>
+                     <f:selectItems value="#{hotelModel.hotels}" var="h" 
+                                    itemLabel="#{h.name} #{h.address.city}" />  
+                 </h:selectOneMenu>
                  
                  <h:form>
                     <h:dataTable var="h" value="#{hotelModel.hotels}">

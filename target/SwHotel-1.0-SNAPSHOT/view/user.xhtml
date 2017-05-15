@@ -12,8 +12,34 @@
 
              <ui:define name="content">
                  <h1>
-                     User Management
-                 </h1>
+                     Login
+                      </h1>
+                     
+                     <h:form>
+                         email: 
+                         <h:inputText value="#{userModel.email}"/>
+                         password:
+                         <h:inputText value="#{userModel.password}"/>
+                          
+                         <h:commandButton action="#{userModel.authenticateUser()}" value="log in"/>
+                    </h:form>
+                 
+                 <h:outputText value="#{userModel.message}"/>
+                
+                 <h1>
+                     Register
+                      </h1>
+                     
+                     <h:form>
+                         name 
+                         <h:inputText value="#{userModel.name}"/>
+                         email: 
+                         <h:inputText value="#{userModel.email}"/>
+                         password:
+                         <h:inputText value="#{userModel.password}"/>
+                          
+                         <h:commandButton action="#{userModel.registerUser()}" value="register"/>
+                    </h:form>
                  
              </ui:define>
          </ui:composition>

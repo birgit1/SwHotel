@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Room extends EntityClass
 {
+    @ManyToOne
     private RoomType roomType;
     
     @ManyToOne

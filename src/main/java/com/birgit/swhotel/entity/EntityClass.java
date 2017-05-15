@@ -1,18 +1,24 @@
 
 package com.birgit.swhotel.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+
 @MappedSuperclass
-public abstract class EntityClass 
+@Access(AccessType.FIELD)
+public abstract class EntityClass implements Serializable 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     
     public long getId()
     {
@@ -20,17 +26,33 @@ public abstract class EntityClass
     }
     
     
+    
     @Override
-    public boolean equals(Object other) {
-        if(other instanceof EntityClass)
-            return Objects.equals(this.getId(), ((EntityClass)other).getId());
-        else
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EntityClass other = (EntityClass) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
     
     @Override
     public int hashCode() {
         return Objects.hashCode(this.getId());
+    }
+    
+    @Override
+    public String toString() {
+        return "Entity{" + "Id=" + id + '}';
     }
     
 }

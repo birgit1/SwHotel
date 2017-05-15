@@ -5,6 +5,7 @@ import com.birgit.swhotel.entity.Hotel;
 import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.RoomType;
 import com.birgit.swhotel.entity.User;
+import java.sql.Date;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -40,10 +41,11 @@ public class RoomService
     {
         TypedQuery<Room> query = entityManager.createQuery("SELECT r FROM Room AS r", Room.class);
         List<Room> result = query.getResultList();
+        System.out.println("service: rooms retrieved: "+result.size());
         return result;
     }
     
-    public Room getRoomById(int id)
+    public Room getRoomById(long id)
     {
         Room room = entityManager.find(Room.class, id);
         return room;
@@ -70,13 +72,16 @@ public class RoomService
     {
         TypedQuery<RoomType> query = entityManager.createQuery("SELECT r FROM RoomType AS r", RoomType.class);
         List<RoomType> result = query.getResultList();
+        System.out.println("service: roomTypes retrieved: "+result.size());
         return result;
     }
     
-    public RoomType getRoomTypeById(int id)
+    public RoomType getRoomTypeById(long id)
     {
         System.out.println("getRoomTypeById");
         RoomType roomType = entityManager.find(RoomType.class, id);
         return roomType;
     }
+    
+    
 }
