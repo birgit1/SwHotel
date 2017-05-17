@@ -32,6 +32,21 @@ public class AdminModel
         this.roomList = roomService.getAllRooms();
     }
     
+    // authentification
+    private String adminPassword;
+    private String wrongPasswordMsg = null;
+    
+    public String authenticateAdmin()
+    {
+        if(adminPassword.equals("admin"))
+            return "admin";
+        else
+        {
+            wrongPasswordMsg = "wrong password";
+            return null;
+        }
+    }
+    
     // hotel ***********************************
     private List<Hotel> hotelList;
     private String hotelName;
@@ -259,6 +274,22 @@ public class AdminModel
 
     public void setHotelInfo(String hotelInfo) {
         this.hotelInfo = hotelInfo;
+    }
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+
+    public String getWrongPasswordMsg() {
+        return wrongPasswordMsg;
+    }
+
+    public void setWrongPasswordMsg(String wrongPasswordMsg) {
+        this.wrongPasswordMsg = wrongPasswordMsg;
     }
     
     

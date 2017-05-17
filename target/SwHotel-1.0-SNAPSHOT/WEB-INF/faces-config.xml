@@ -40,6 +40,11 @@
             <to-view-id>view/admin.xhtml</to-view-id>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>adminAuthentification</from-outcome>
+            <to-view-id>view/adminAuthentification.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
     
 </faces-config>

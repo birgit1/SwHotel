@@ -3,7 +3,6 @@ package com.birgit.swhotel.repo;
 
 import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.Room;
-import com.birgit.swhotel.entity.RoomBooking;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +21,9 @@ public class BookingRepo
     private EntityManager entityManager;
     
     @Inject
+    private RoomRepo roomRepo;
+    
+    @Inject
     private Logger logger;
     
     // Schreibzugriff
@@ -29,11 +31,6 @@ public class BookingRepo
     public Booking addBooking(Booking booking)
     {
         entityManager.persist(booking);
-        
-        RoomBooking roomBookings = new RoomBooking(booking.getRoom(), 
-        booking.getArrival(), booking.getNights(), booking);
-        entityManager.persist(roomBookings);
-        
         return booking;
     }
     
@@ -42,20 +39,6 @@ public class BookingRepo
     {
         booking = entityManager.merge(booking);
         entityManager.remove(booking);
-        
-        /*long bookingId = booking.getId();
-        String queryString = "SELECT rb FROM RoomBooking rb WHERE rb.booking.id = :parameter1";
-        TypedQuery query = entityManager.createQuery(queryString, RoomBooking.class);
-        query.setParameter("parameter1", bookingId);
-        List<RoomBooking> roomBookings = query.getResultList();
-        
-        if(roomBookings.size() > 0)
-        {    
-            RoomBooking roomBooking = roomBookings.get(0);
-            roomBooking = entityManager.merge(roomBooking);
-            entityManager.remove(roomBooking);
-        }*/
-       
         return booking;
     }
     
@@ -67,43 +50,44 @@ public class BookingRepo
         return result;
     }
     
-    
-    public List<Room> getBookingsForRooms(List<Room> rooms, Date arrivalDate, int nights)
+    @Transactional
+    public List<Room> getAvailableRooms(List<Room> rooms, Date arrivalDate, int nights)
     {
         List<Room> availableRooms = new ArrayList<>();
-        
+     
         for(int i=0; i<rooms.size(); i++)
         {
             long roomId = rooms.get(i).getId();
-             List<RoomBooking> roomBookings;
-            try{
-            TypedQuery query = entityManager.
-                    createQuery("Select r From RoomBooking r Where r.room.id =: parameter1", RoomBooking.class);
+            // find the bookings for each room
+            TypedQuery<Booking> query = entityManager.createQuery(
+            "SELECT b FROM Booking b WHERE  b.room.id = :parameter1", Booking.class);
             query.setParameter("parameter1", roomId);
-            roomBookings = query.getResultList();
-            }
-            catch(Exception e)
-            {
-                logger.info("booking repo##########: query fail");
-                e.printStackTrace();
-                return null;
-            }
+            List<Booking> roomBookings = query.getResultList();
+            logger.info("bookings found for room: "+roomBookings.size());
+            
         
-            if(roomBookings.size() > 0)
+            // check if one of the bookings is at the same time of the reservation date
+            boolean available = true;
+            if(roomBookings == null || roomBookings.size() > 0)
             {
-                boolean available = true;
+                logger.info("some roombookings");
+                // there are bookings for that room
                 for(int j=0; j<roomBookings.size(); j++)
                 {
                      available = roomBookings.get(j).compareRoomAvailability(arrivalDate, nights);
                      if(available == false)
                          break;
                 }
-                if(available == true)
-                {
-                    availableRooms.add(roomBookings.get(i).getRoom());
-                }
             }
+            if(available == true)
+                {
+                    Room room = roomRepo.getRoomById(roomId);
+                    
+                    logger.info("add room as available: "+room.getId());
+                    availableRooms.add(room);
+                }
         }
+        logger.info("rooms avaiable");
         return availableRooms;
     }
     

@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 public class BookingService 
 {
     @Inject
-    Logger logger;
+    private Logger logger;
     
     @Inject
     private RoomRepo roomRepo;
@@ -33,8 +33,9 @@ public class BookingService
   
     
     @Transactional
-    public List<Room> checkAvailibility(Hotel hotel, Date date, int nights)
+    public List<Room> getAvailableRooms(Hotel hotel, Date date, int nights)
     {
+        // find all rooms in certain hotel
         List<Room> hotelRooms;
         logger.info("########### BookingService: check availalbility");
         // get all rooms of hotel
@@ -51,7 +52,8 @@ public class BookingService
         
         try{
             
-        List<Room> availableRooms = bookingRepo.getBookingsForRooms(hotelRooms, date, nights);
+        // get all bookings for all rooms in hotel and return if they are available at the time
+        List<Room> availableRooms = bookingRepo.getAvailableRooms(hotelRooms, date, nights);
         logger.info("# available rooms found: "+availableRooms.size());
         return availableRooms;
         }
@@ -74,26 +76,13 @@ public class BookingService
     }
     
     @Transactional
-    public Booking removeBooking(User user, Booking booking)
+    public Booking removeBooking(Booking booking)
     {
-        try{
+        User user = booking.getUser();
         userRepo.removeBooking(user, booking);
-        }
-        catch(Exception ex)
-        {
-            logger.info("booking remove #2");
-            return null;
-        }
-        try{
-        Booking b = bookingRepo.deleteBooking(booking);
-        }
-        catch(Exception ex)
-        {
-            logger.info("booking remove #1");
-            return null;
-        }
-        
-        return booking;
+         Booking b = bookingRepo.deleteBooking(booking);
+         logger.info("booking deleted: "+b.getId());
+       return booking;
     }
     
     

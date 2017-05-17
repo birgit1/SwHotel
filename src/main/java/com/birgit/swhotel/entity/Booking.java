@@ -2,7 +2,9 @@
 
 package com.birgit.swhotel.entity;
 
+import com.birgit.swhotel.utils.DateUtils;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -21,6 +23,27 @@ public class Booking extends EntityClass
     public Booking()
     {
         super();
+    }
+    
+    public Booking(Room room)
+    {
+        this.room = room;
+    }
+    
+    public boolean compareRoomAvailability(Date arrivalDate, int nnights)
+    {
+        List<Date> otherDate = DateUtils.getTimeList(arrivalDate, nnights);
+        List<Date> thisDate = DateUtils.getTimeList(this.arrival, this.nights);
+        for(int i=0; i<otherDate.size(); i++)
+        {
+            if(thisDate.contains(otherDate.get(i))== true)
+            {
+                System.out.println("NOT available");
+                return false;
+            }
+        }
+        System.out.println("available");
+        return true;
     }
 
     public User getUser() {
@@ -43,8 +66,10 @@ public class Booking extends EntityClass
         return nights;
     }
 
-    public void setNights(int nights) {
+    public void setNights(int nights) 
+    {
         this.nights = nights;
+        this.totalPrice = this.room.getPrice()*nights;
     }
 
     public Date getArrival() {

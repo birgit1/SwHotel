@@ -91,6 +91,12 @@ public class HotelModel implements Serializable
     private Room currentRoom = null;
     private Booking currentBooking = null;
     
+    public void getAvailableRooms()
+    {
+        Date date = DateUtils.stringToDate(dateDay, dateMonth, dateYear);
+        rooms = bookingService.getAvailableRooms(currentHotel, date, nights);
+    }
+    
     public String bookRoom(Room room)
     {
         currentRoom = room;

@@ -56,37 +56,7 @@ public class RoomRepo
         return room;
     }
     
-    // Schreibzugriff
-    /*@Transactional
-    public RoomType addRoomType(RoomType room)
-    {
-        entityManager.persist(room);
-        return room;
-    }
     
-    @Transactional
-    public RoomType deleteRoomType(RoomType roomType)
-    {
-        roomType = entityManager.merge(roomType);
-        entityManager.remove(roomType);
-        return roomType;
-    }
-    
-    // Lesezugriff
-    public List<RoomType> getAllRoomTypes()
-    {
-        TypedQuery<RoomType> query = entityManager.createQuery("SELECT r FROM RoomType AS r", RoomType.class);
-        List<RoomType> result = query.getResultList();
-        System.out.println("service: roomTypes retrieved: "+result.size());
-        return result;
-    }
-    
-    public RoomType getRoomTypeById(long id)
-    {
-        System.out.println("getRoomTypeById");
-        RoomType roomType = entityManager.find(RoomType.class, id);
-        return roomType;
-    }*/
     
     @Transactional
     public List<Room> getHotelRooms(Hotel hotel)
