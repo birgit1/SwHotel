@@ -10,21 +10,27 @@
         <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
-                     Book
-                      </h1>
-                 <h:outputText value="#{hotelModel.currentHotel.name}"/>
-                 <h:outputText value="#{hotelModel.currentRoom.roomType.roomName}"/>
-                 
+                 <h3>
+                     Book your stay
+                 </h3>
+                 <div>
+                    <p>You are booking</p>
+                    <p> at <h:outputText value="#{hotelModel.currentHotel.name}"/> hotel</p>
+                    <p> room <h:outputText value="#{hotelModel.currentRoom.roomType.roomName}"/></p>
+                 </div>
                      
+                 <div>
+                     <p> sign in to complete your booking </p>
                      <h:form>
                          email: 
                          <h:inputText value="#{hotelModel.email}"/>
                          password:
-                         <h:inputText value="#{hotelModel.password}"/>
+                         <h:inputHidden value="#{hotelModel.password}"/>
+                         <h:inputSecret value="#{hotelModel.password}"/>
                           
                          <h:commandButton action="#{hotelModel.makeBooking()}" value="make booking"/>
                     </h:form>
+                 </div>
                  
                  <h:outputText value="#{hotelModel.message}"/>
                 

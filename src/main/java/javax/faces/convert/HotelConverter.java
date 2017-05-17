@@ -6,12 +6,8 @@
 package javax.faces.convert;
 
 import com.birgit.swhotel.entity.EntityClass;
-import com.birgit.swhotel.entity.Hotel;
-import com.birgit.swhotel.service.HotelService;
+import com.birgit.swhotel.repo.HotelRepo;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,8 +17,9 @@ import javax.inject.Named;
 public class HotelConverter extends AbstractConverterClass
 {
     @Inject
-    private HotelService hotelService;
+    private HotelRepo hotelService;
 
+    @Override
     public EntityClass findById(Long id) 
     {
         return hotelService.getHotelById(id);

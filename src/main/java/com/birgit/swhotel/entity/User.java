@@ -70,6 +70,11 @@ public class User extends EntityClass implements Serializable
         bookings.add(booking);
     }
     
+    public void removeBooking(Booking booking)
+    {
+        bookings.remove(booking);
+    }
+    
     
     
 

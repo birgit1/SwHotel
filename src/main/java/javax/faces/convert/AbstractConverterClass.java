@@ -6,7 +6,6 @@
 package javax.faces.convert;
 
 import com.birgit.swhotel.entity.EntityClass;
-import com.birgit.swhotel.entity.Hotel;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 

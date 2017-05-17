@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sw-Hotels</title>
     </h:head>
@@ -15,50 +16,56 @@
                  </h1>
                  
                 <p>
-                    <h:outputText value="#{hotelModel.currentHotel.info}"/>
+                    hotel info: <h:outputText value="#{hotelModel.currentHotel.info}"/>
+                 </p>
+                 
+                 <p>
+                    city: <h:outputText value="#{hotelModel.currentHotel.address.city}"/>
                  </p>
                  <p>
-                            <h:outputText value="#{hotelModel.currentHotel.name}"/>
+                    county: <h:outputText value="#{hotelModel.currentHotel.address.country}"/>
                  </p>
                  <p>
-                            <h:outputText value="#{hotelModel.currentHotel.address.city}"/>
-                            <h:outputText value="#{hotelModel.currentHotel.address.country}"/>
-                 </p>
-                 <p>
-                            <h:outputText value="#{hotelModel.currentHotel.address.address}"/>
+                    address: <h:outputText value="#{hotelModel.currentHotel.address.address}"/>
                  </p>
                  <h:form>
-                 date dd/mm/yyyy
-                 <h:inputText value="#{hotelModel.dateDay}"/>
-                 <h:inputText value="#{hotelModel.dateMonth}"/>
-                 <h:inputText value="#{hotelModel.dateYear}"/>
-                 nights
-                 <h:inputText value="#{hotelModel.nights}"/>
-                 <p>
-                     <h:commandButton action="#{hotelModel.checkAvailability()}" value="check availability"/>
-                          
-                 </p>
-                 </h:form>
-                   <h:form>
+                     <div>
+                        <p>when do you arrive?</p>
+                        <h:inputText value="#{hotelModel.dateDay}"/>
+                        <h:inputText value="#{hotelModel.dateMonth}"/>
+                        <h:inputText value="#{hotelModel.dateYear}"/>
+                     </div>
+                     <div>
+                        <p>how many nights do you want to stay?</p>
+                        <h:inputText value="#{hotelModel.nights}"/>
+                     </div>
+                     <div>
+                         <h:commandButton action="#{hotelModel.checkAvailability()}" value="check availability"/>
+                    </div>
+                 
+                    <div>
+                        <p> These rooms are available for your stay </p>
                      <h:dataTable var="r" value="#{hotelModel.rooms}">
                        
+                        
                         <h:column>
-                            <h:outputText value="#{r.id}"/>
-                        </h:column>
-                        <h:column>
-                            <h:outputText value="#{r.hotel.name}"/>
-                        </h:column>
-                        <h:column>
+                            <f:facet name="header">Room Type</f:facet>
                             <h:outputText value="#{r.roomType.roomName}"/>
                         </h:column>
+                         <h:column>
+                            <f:facet name="header"># beds</f:facet>
+                            <h:outputText value="#{r.roomType.beds}"/>
+                        </h:column>
                         <h:column>
+                            <f:facet name="header">Price</f:facet>
                             <h:outputText value="#{r.roomType.standardPrice}"/>
                         </h:column>
                         <h:column>
                             <h:commandButton action="#{hotelModel.bookRoom(r)}" value="book"/>
                         </h:column>
                        
-                    </h:dataTable>
+                        </h:dataTable>
+                     </div>
                  </h:form>
              </ui:define>
          </ui:composition>

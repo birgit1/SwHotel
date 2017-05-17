@@ -1,22 +1,15 @@
-package com.birgit.swhotel.service;
+package com.birgit.swhotel.repo;
 
 import com.birgit.swhotel.entity.Booking;
-import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.User;
-import com.birgit.swhotel.utils.LoggerProvider;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+
 
 @SessionScoped
 public class UserRepo implements Serializable 
@@ -59,6 +52,32 @@ public class UserRepo implements Serializable
         return user;
     }
     
+    
+    
+    @Transactional
+    public void addBookingToUser(User user, Booking booking)
+    {
+        user = entityManager.merge(user);
+        user.setBooking(booking);
+        entityManager.persist(user);
+    }
+    
+    @Transactional
+    public void removeBooking(User user, Booking booking)
+    {
+        user = entityManager.merge(user);
+        user.removeBooking(booking);
+        entityManager.persist(user);
+    }
+    
+    @Transactional
+    public List<Booking> getUserBookings(User user)
+    {
+        user = entityManager.merge(user);
+        List<Booking> bookings = user.getBookings();
+        return bookings;
+    }
+    
     @Transactional
     public User authenticateUser(String email, String password)
     {
@@ -77,22 +96,6 @@ public class UserRepo implements Serializable
             User user = users.get(0);
             return user;
         }  
-    }
-    
-    @Transactional
-    public void addBookingToUser(User user, Booking booking)
-    {
-        user = entityManager.merge(user);
-        user.setBooking(booking);
-        entityManager.persist(user);
-    }
-    
-    @Transactional
-    public List<Booking> getUserBookings(User user)
-    {
-        user = entityManager.merge(user);
-        List<Booking> bookings = user.getBookings();
-        return bookings;
     }
     
 }

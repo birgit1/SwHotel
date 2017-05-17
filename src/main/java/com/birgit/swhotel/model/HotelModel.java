@@ -7,9 +7,8 @@ import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.User;
 import com.birgit.swhotel.repo.HotelRepo;
 import com.birgit.swhotel.repo.RoomRepo;
+import com.birgit.swhotel.repo.UserRepo;
 import com.birgit.swhotel.service.BookingService;
-import com.birgit.swhotel.service.HotelService;
-import com.birgit.swhotel.service.UserRepo;
 import com.birgit.swhotel.utils.DateUtils;
 import java.io.Serializable;
 import java.util.Date;
@@ -67,10 +66,6 @@ public class HotelModel implements Serializable
         return "hotelDetail";
     }
     
-    private int dateDay = 14;
-    private int dateMonth = 05;
-    private int dateYear = 2017;
-    private int nights = 1;
    
     /*public void checkAvailability()
     {
@@ -80,6 +75,11 @@ public class HotelModel implements Serializable
         rooms2rent = "#rooms:  "+availableRooms.size();
         
     }*/
+    private int dateDay = 1;
+    private int dateMonth = 8;
+    private int dateYear = 2017;
+    private int nights = 2;
+    
     
     private List<Room> rooms ;
     
@@ -89,11 +89,17 @@ public class HotelModel implements Serializable
     }
     
     private Room currentRoom = null;
+    private Booking currentBooking = null;
     
     public String bookRoom(Room room)
     {
-        System.out.println("book room: "+room.getId());
         currentRoom = room;
+        currentBooking = new Booking();
+        currentBooking.setRoom(currentRoom);
+        System.out.println("0 DATE: "+dateDay+"."+dateMonth+"."+dateYear);
+        currentBooking.setArrival(DateUtils.stringToDate(dateDay, dateMonth, dateYear));
+        currentBooking.setNights(nights);
+        System.out.println("1 DATE: "+currentBooking.getArrival());
         
         return "bookingDetail";
     }
@@ -109,8 +115,14 @@ public class HotelModel implements Serializable
     public String makeBooking()
     {
         register();
-        Date arrivalDate = DateUtils.stringToDate(dateDay, dateMonth, dateYear);
-        Booking booking = bookingService.makeBooking(currentRoom, loggedInUser, arrivalDate, nights);
+        if(loggedInUser == null)
+        {
+            message = "wrong log in data";
+            return "bookingDetails";
+        }
+        currentBooking.setUser(loggedInUser);
+        Booking booking = bookingService.makeBooking(currentBooking, loggedInUser);
+        System.out.println("2 DATE: "+booking.getArrival());
         message = "booking successful: "+booking.getId();
         getBookingsForUser();
         return "bookings";
@@ -128,6 +140,12 @@ public class HotelModel implements Serializable
     public void register()
     {
         loggedInUser = userRepo.authenticateUser(email, password);
+    }
+    
+    public void deleteBooking(Booking booking)
+    {
+        bookingService.removeBooking(loggedInUser, booking);
+        userBookings.remove(booking);
     }
     
 

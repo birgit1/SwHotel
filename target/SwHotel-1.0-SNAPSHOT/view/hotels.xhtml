@@ -12,7 +12,7 @@
 
              <ui:define name="content">
                  <h1>
-                     Welcome to Sw-Hotels!
+                     Choose your hotel!
                  </h1>
                  
                  <h:form>
@@ -22,24 +22,19 @@
                  
                  <!-- auswahlMenü -->
                  
-                 <h:selectOneMenu value="#{hotelModel.currentHotel}">
-                     <f:converter binding="#{hotelConverter}"/>
-                     <f:selectItems value="#{hotelModel.hotels}" var="h" 
-                                    itemLabel="#{h.name} #{h.address.city}" />  
-                 </h:selectOneMenu>
-                 
                  <h:form>
                     <h:dataTable var="h" value="#{hotelModel.hotels}">
+                        
                         <h:column>
-                            <h:outputText value="#{h.id}"/>
-                        </h:column>
-                        <h:column>
+                            <f:facet name="header">Hotel</f:facet>
                             <h:outputText value="#{h.name}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">City</f:facet>
                             <h:outputText value="#{h.address.city}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Country</f:facet>
                             <h:outputText value="#{h.address.country}"/>
                         </h:column>
                         <h:column>

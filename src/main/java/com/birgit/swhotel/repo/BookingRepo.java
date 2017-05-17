@@ -43,8 +43,8 @@ public class BookingRepo
         booking = entityManager.merge(booking);
         entityManager.remove(booking);
         
-        long bookingId = booking.getId();
-        String queryString = "SELECT rb FROM RoomBooking rb WHERE rb.booking_id = :parameter1";
+        /*long bookingId = booking.getId();
+        String queryString = "SELECT rb FROM RoomBooking rb WHERE rb.booking.id = :parameter1";
         TypedQuery query = entityManager.createQuery(queryString, RoomBooking.class);
         query.setParameter("parameter1", bookingId);
         List<RoomBooking> roomBookings = query.getResultList();
@@ -54,7 +54,7 @@ public class BookingRepo
             RoomBooking roomBooking = roomBookings.get(0);
             roomBooking = entityManager.merge(roomBooking);
             entityManager.remove(roomBooking);
-        }
+        }*/
        
         return booking;
     }

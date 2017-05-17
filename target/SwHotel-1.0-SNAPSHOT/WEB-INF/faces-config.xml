@@ -9,10 +9,6 @@
         <description>General Navigation</description>
         <from-view-id>view/*</from-view-id>
         
-        <navigation-case>
-            <from-outcome>home</from-outcome>
-            <to-view-id>view/index.xhtml</to-view-id>
-        </navigation-case>
 
         <navigation-case>
             <from-outcome>users</from-outcome>

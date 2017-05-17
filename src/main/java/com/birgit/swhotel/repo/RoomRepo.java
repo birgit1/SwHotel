@@ -57,7 +57,7 @@ public class RoomRepo
     }
     
     // Schreibzugriff
-    @Transactional
+    /*@Transactional
     public RoomType addRoomType(RoomType room)
     {
         entityManager.persist(room);
@@ -86,7 +86,7 @@ public class RoomRepo
         System.out.println("getRoomTypeById");
         RoomType roomType = entityManager.find(RoomType.class, id);
         return roomType;
-    }
+    }*/
     
     @Transactional
     public List<Room> getHotelRooms(Hotel hotel)

@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>My Bookings</title>
     </h:head>
@@ -15,23 +16,34 @@
                       </h1>
                      
                  <h3> your bookings </h3>   
+                 <h:form>
                  <h:dataTable var="b" value="#{hotelModel.userBookings}">
                         <h:column>
+                            <f:facet name="header">Hotel</f:facet>
                             <h:outputText value="#{b.room.hotel.name}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Room</f:facet>
                             <h:outputText value="#{b.room.roomType.roomName}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">City</f:facet>
                             <h:outputText value="#{b.room.hotel.address.city}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Arrival Date</f:facet>
                             <h:outputText value="#{b.arrival}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header"># Nights</f:facet>
                             <h:outputText value="#{b.nights}"/>
                         </h:column>
+                     <h:column>
+                         <f:facet name="header">Cancel Booking</f:facet>
+                         <h:commandButton action="#{hotelModel.deleteBooking(b)}" value="X"/>
+                 </h:column>
                     </h:dataTable>
+                     </h:form>
                  
                  
              </ui:define>

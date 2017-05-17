@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.birgit.swhotel.model;
 
 import com.birgit.swhotel.entity.User;
-import com.birgit.swhotel.service.UserRepo;
-import com.birgit.swhotel.service.UserService;
-import com.birgit.swhotel.utils.LoggerProvider;
+import com.birgit.swhotel.repo.UserRepo;
 import java.io.Serializable;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

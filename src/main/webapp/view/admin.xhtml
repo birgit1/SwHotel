@@ -12,7 +12,7 @@
 
              <ui:define name="content">
                  <h1>
-                     Admin Page
+                     Hotel Management
                  </h1>
                  
         <h1> Hotel ***************************************</h1>
@@ -23,6 +23,12 @@
             <h:inputText value="#{adminModel.city}"/>
             country
             <h:inputText value="#{adminModel.country}"/>
+            address
+            <h:inputText value="#{adminModel.hotelAddress}"/>
+            price factor
+            <h:inputText value="#{adminModel.priceFactor}"/>
+            info
+            <h:inputTextarea value="#{adminModel.hotelInfo}"/>
             <h:commandButton action="#{adminModel.addHotel()}" value="+"/>
         </h:form>
         
@@ -30,12 +36,15 @@
             
              <h:dataTable var="h" value="#{adminModel.hotelList}">
                         <h:column>
+                            <f:facet name="header">Hotel Name</f:facet>
                             <h:outputText value="#{h.name}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">City</f:facet>
                             <h:outputText value="#{h.address.city}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Country</f:facet>
                             <h:outputText value="#{h.address.country}"/>
                         </h:column>
                  <h:column>
@@ -60,12 +69,15 @@
         
              <h:dataTable var="rt" value="#{adminModel.roomTypeList}">
                         <h:column>
+                            <f:facet name="header">Room Name</f:facet>
                             <h:outputText value="#{rt.roomName}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header"># Beds</f:facet>
                             <h:outputText value="#{rt.beds}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Standard Price</f:facet>
                             <h:outputText value="#{rt.standardPrice}"/>
                         </h:column>
                         
@@ -100,13 +112,20 @@
              <h:dataTable var="r" value="#{adminModel.roomList}">
                         
                         <h:column>
+                            <f:facet name="header">Hotel</f:facet>
                             <h:outputText value="#{r.hotel.name}"/>
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Room Type</f:facet>
                             <h:outputText value="#{r.roomType.roomName}"/>
                         </h:column>
                          <h:column>
+                             <f:facet name="header"># Beds per Room</f:facet>
                              <h:outputText value="#{r.roomType.beds}"/>
+                        </h:column>
+                        <h:column>
+                             <f:facet name="header">Room Price</f:facet>
+                             <h:outputText value="#{r.price}"/>
                         </h:column>
                         <h:column>
                             <h:commandButton action="#{adminModel.deleteRoom(r)}" value="X"/>

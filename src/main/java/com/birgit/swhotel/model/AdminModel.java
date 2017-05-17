@@ -6,6 +6,7 @@ import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.RoomType;
 import com.birgit.swhotel.repo.HotelRepo;
 import com.birgit.swhotel.repo.RoomRepo;
+import com.birgit.swhotel.repo.RoomTypeRepo;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -20,35 +21,49 @@ public class AdminModel
     private HotelRepo hotelService;
     @Inject
     private RoomRepo roomService;
+    @Inject
+    private RoomTypeRepo roomTypeService;
+    
+    @PostConstruct
+    public void init() 
+    {
+        this.hotelList = hotelService.getAllHotels();
+        this.roomTypeList = roomTypeService.getAllRoomTypes();
+        this.roomList = roomService.getAllRooms();
+    }
     
     // hotel ***********************************
     private List<Hotel> hotelList;
     private String hotelName;
     private String city;
     private String country;
+    private String hotelAddress;
+    private String hotelInfo = null;
+    private double priceFactor = 1;
     
-    @PostConstruct
-    public void init() 
-    {
-        this.hotelList = hotelService.getAllHotels();
-        this.roomTypeList = roomService.getAllRoomTypes();
-        this.roomList = roomService.getAllRooms();
-    }
     
     public void addHotel()
     {
         Hotel hotel = new Hotel();
         hotel.setName(hotelName);
-        String address = hotelName+" "+city+" "+country;
-        hotel.setAddress(address, city, country);
+        hotel.setAddress(hotelAddress, city, country);
+        hotel.setPriceFactor(priceFactor);
+        hotel.setInfo(hotelInfo);
         
-        hotelService.addHotel(hotel);
-        hotelList.add(hotel);
-        System.out.println("hotel added "+hotel.getId());
+        Hotel addedHotel = hotelService.addHotel(hotel);
+        hotelList.add(addedHotel);
+        System.out.println("hotel added "+addedHotel.getId());
+        hotelName = null;
+        city = null;
+        country = null;
+        hotelAddress = null;
+        hotelInfo = null;
+        priceFactor = 1;
     }
     
     public void deleteHotel(Hotel hotel)
     {
+        System.out.println("delete hotel "+hotel.getName());
         hotelService.deleteHotel(hotel);
         hotelList.remove(hotel);
         System.out.println("hotel "+hotel.getId()+" deleted");
@@ -68,7 +83,7 @@ public class AdminModel
         roomType.setRoomName(roomTypeName);
         roomType.setBeds(beds);
         roomType.setStandardPrice(standardPrice);
-        roomService.addRoomType(roomType);
+        roomTypeService.addRoomType(roomType);
         roomTypeList.add(roomType);
         System.out.println("roomType added "+roomType.getId());
         roomTypeName = null;
@@ -78,7 +93,7 @@ public class AdminModel
     
     public void deleteRoomType(RoomType roomType)
     {
-        roomService.deleteRoomType(roomType);
+        roomTypeService.deleteRoomType(roomType);
         roomTypeList.remove(roomType);
     }
     
@@ -93,9 +108,7 @@ public class AdminModel
     
     public void addRoom()
     {
-        Room room = new Room();
-        room.setHotel(currentHotelRoomSelection);
-        room.setRoomType(currentRoomTypeRoomSelection);
+        Room room = new Room(currentHotelRoomSelection, currentRoomTypeRoomSelection);
        
         roomService.addRoom(room);
         roomList.add(room);
@@ -112,31 +125,22 @@ public class AdminModel
     
     
     // lists *****************************************************
-    
-    
-    
+ 
     public List<Hotel> getHotelList()
     {
-        //hotelList = hotelService.getAllHotels();
         return hotelList;
     }
     
     public List<RoomType> getRoomTypeList()
     {
-        //roomTypeList = roomService.getAllRoomTypes();
         return roomTypeList;
     }
     
     public List<Room> getRoomList()
     {
-        //roomList = roomService.getAllRooms();
         return roomList;
     }
-    
-
-    
-
-    // getter & setter *****************************************
+  // getter & setter *****************************************
     public void setCurrentRoomTypeRoomSelection(RoomType currentRoomTypeRoomSelection) {    
         this.currentRoomTypeRoomSelection = currentRoomTypeRoomSelection;
     }
@@ -232,5 +236,32 @@ public class AdminModel
     public void setRoomList(List<Room> roomList) {
         this.roomList = roomList;
     }
+
+    public String getHotelAddress() {
+        return hotelAddress;
+    }
+
+    public void setHotelAddress(String hotelAddress) {
+        this.hotelAddress = hotelAddress;
+    }
+
+    public double getPriceFactor() {
+        return priceFactor;
+    }
+
+    public void setPriceFactor(double priceFactor) {
+        this.priceFactor = priceFactor;
+    }
+
+    public String getHotelInfo() {
+        return hotelInfo;
+    }
+
+    public void setHotelInfo(String hotelInfo) {
+        this.hotelInfo = hotelInfo;
+    }
+    
+    
+    
     
 }
