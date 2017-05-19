@@ -5,7 +5,7 @@
  */
 package javax.faces.convert;
 
-import com.birgit.swhotel.entity.EntityClass;
+import com.birgit.swhotel.entity.SingleIdEntity;
 import com.birgit.swhotel.repo.RoomTypeRepo;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,9 +20,9 @@ public class RoomTypeConverter extends  AbstractConverterClass
     private RoomTypeRepo roomTypeService;
 
     @Override
-    public EntityClass findById(Long id) 
+    public SingleIdEntity findById(Long id) 
     {
-        return roomTypeService.getRoomTypeById(id);
+        return roomTypeService.getById(id);
     }
     
 }

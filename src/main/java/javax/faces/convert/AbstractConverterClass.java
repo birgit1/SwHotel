@@ -5,14 +5,14 @@
  */
 package javax.faces.convert;
 
-import com.birgit.swhotel.entity.EntityClass;
+import com.birgit.swhotel.entity.SingleIdEntity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 
 public abstract class AbstractConverterClass implements Converter
 {
-    public abstract EntityClass findById(Long id); 
+    public abstract SingleIdEntity findById(Long id); 
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
@@ -20,7 +20,7 @@ public abstract class AbstractConverterClass implements Converter
         if(value == null) {
             return "";
         }        
-        EntityClass entity = findById(Long.valueOf(value));
+        SingleIdEntity entity = findById(Long.valueOf(value));
         if(entity == null) {
             return "";   
         }
@@ -36,7 +36,7 @@ public abstract class AbstractConverterClass implements Converter
         }
         /*if(!value.getClass().equals(EntityClass.class))
             return null;*/
-        long id = ((EntityClass)value).getId();
+        long id = ((SingleIdEntity)value).getId();
         return String.valueOf(id);
     }
     

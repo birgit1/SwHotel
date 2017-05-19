@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Register or login</title>
+    </h:head>
+    <h:body>
+        
+         <ui:composition template="../WEB-INF/template.xhtml">
+
+             <ui:define name="content">
+                 <h1>
+                     Login
+                      </h1>
+                     
+                     <h:form>
+                         email: 
+                         <h:inputText value="#{userModel.email}"/>
+                         password:
+                         <h:inputText value="#{userModel.password}"/>
+                          
+                         <h:commandButton action="#{userModel.authenticateUser()}" value="log in"/>
+                    </h:form>
+                 
+                 <h:outputText value="#{userModel.message}"/>
+                
+                 <h1>
+                     Register
+                      </h1>
+                     
+                     <h:form>
+                         name 
+                         <h:inputText value="#{userModel.name}"/>
+                         email: 
+                         <h:inputText value="#{userModel.email}"/>
+                         password:
+                         <h:inputText value="#{userModel.password}"/>
+                         creditcardnumber
+                          
+                         <h:commandButton action="#{userModel.registerUser()}" value="register"/>
+                    </h:form>
+                 
+             </ui:define>
+         </ui:composition>
+    </h:body>
+</html>

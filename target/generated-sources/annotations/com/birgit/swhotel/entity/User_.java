@@ -6,9 +6,9 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-15T20:02:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-18T14:56:23")
 @StaticMetamodel(User.class)
-public class User_ extends EntityClass_ {
+public class User_ extends SingleIdEntity_ {
 
     public static volatile SingularAttribute<User, String> password;
     public static volatile SingularAttribute<User, String> name;

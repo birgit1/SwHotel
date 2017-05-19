@@ -3,18 +3,23 @@ package com.birgit.swhotel.model;
 
 import com.birgit.swhotel.entity.User;
 import com.birgit.swhotel.repo.UserRepo;
+import com.birgit.swhotel.service.UserService;
 import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class UserModel implements Serializable
 {
     
     @Inject 
-    private UserRepo userService;
+     UserService userService;
+    
+    @Inject
+    private UserRepo userRepo;
     
     private User loggedInUser = null;
     private String email, password, name;
@@ -29,15 +34,14 @@ public class UserModel implements Serializable
             user.setEmail(email);
             user.setName(name);
             user.setPassword(password);
-            userService.createUser(user);
+            User u = userService.registerUser(user);
             authenticateUser();
         }
-        
     }
     
     public void authenticateUser()
     {
-        loggedInUser = userService.authenticateUser(email, password);
+        loggedInUser = userRepo.authenticateUser(email, password);
         if(loggedInUser == null)
         {
             message = "authentification fail; wrong password or email";

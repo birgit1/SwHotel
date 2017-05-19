@@ -12,68 +12,39 @@ import javax.transaction.Transactional;
 
 
 @SessionScoped
-public class UserRepo implements Serializable 
+public class UserRepo extends SingleIdEntityRepository implements Serializable 
 {
-    @PersistenceContext(unitName="SwHotelPU")
-    private EntityManager entityManager;
-    
-    /*@Inject
-    LoggerFactory logger;*/
-    
-    // Schreibzugriff
-    @Transactional
-    public User createUser(User user)
+    //@PersistenceContext(unitName="SwHotelPU")
+    //private EntityManager entityManager;
+    private Class<User> userType;
+
+    public UserRepo()
     {
-        entityManager.persist(user);
-        return user;
+        super(User.class);
     }
-    
-    
-    @Transactional
-    public User deleteUser(User user)
-    {
-        System.out.println("userservice: delete user #"+user.getId());
-        user = entityManager.merge(user);
-        entityManager.remove(user);
-        return user;
-    }
-    
-    // Lesezugriff
-    public List<User> getAllUsers()
-    {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User AS u", User.class);
-        List<User> result = query.getResultList();
-        return result;
-    }
-    
-    public User getUserById(long id)
-    {
-        User user = entityManager.find(User.class, id);
-        return user;
-    }
-    
     
     
     @Transactional
     public void addBookingToUser(User user, Booking booking)
     {
-        user = entityManager.merge(user);
+        //user = entityManager.merge(user);
+        user = (User) merge(user);
         user.setBooking(booking);
-        entityManager.persist(user);
+        persist(user);
     }
     
     @Transactional
     public void removeBooking(User user, Booking booking)
     {
-        user = entityManager.merge(user);
+        user = (User) merge(user);
         user.removeBooking(booking);
-        entityManager.persist(user);
+        persist(user);
     }
     
     @Transactional
     public List<Booking> getUserBookings(User user)
     {
-        user = entityManager.merge(user);
+        user = (User) merge(user);
         List<Booking> bookings = user.getBookings();
         return bookings;
     }
@@ -81,7 +52,7 @@ public class UserRepo implements Serializable
     @Transactional
     public User authenticateUser(String email, String password)
     {
-        TypedQuery<User> query = entityManager.createQuery(
+        TypedQuery<User> query = this.getEntityManager().createQuery(
             "SELECT u FROM User u WHERE u.email = "
                     + ":parameter1 AND u.password = :parameter2", User.class);
         query.setParameter("parameter1", email);
@@ -98,4 +69,14 @@ public class UserRepo implements Serializable
         }  
     }
     
+    @Transactional
+    public User getUserByEmail(String email)
+    {
+        TypedQuery<User> query = this.getEntityManager().createQuery(
+            "SELECT u FROM User u WHERE u.email = "
+                    + ":parameter1", User.class);
+        query.setParameter("parameter1", email);
+        User user = query.getSingleResult();
+        return user;
+    }
 }

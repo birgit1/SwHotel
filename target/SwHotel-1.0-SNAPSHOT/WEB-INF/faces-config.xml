@@ -12,7 +12,7 @@
 
         <navigation-case>
             <from-outcome>users</from-outcome>
-            <to-view-id>view/user.xhtml</to-view-id>
+            <to-view-id>view/loginRegister.xhtml</to-view-id>
         </navigation-case>
        
         <navigation-case>
@@ -43,6 +43,16 @@
         <navigation-case>
             <from-outcome>adminAuthentification</from-outcome>
             <to-view-id>view/adminAuthentification.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>view/login.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>loginOrRegister</from-outcome>
+            <to-view-id>view/loginRegister.xhtml</to-view-id>
         </navigation-case>
         
     </navigation-rule>

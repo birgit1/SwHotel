@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TUser")
-public class User extends EntityClass implements Serializable 
+public class User extends SingleIdEntity implements Serializable 
 {
     
     private String email;

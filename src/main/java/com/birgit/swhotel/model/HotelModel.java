@@ -9,11 +9,13 @@ import com.birgit.swhotel.repo.HotelRepo;
 import com.birgit.swhotel.repo.RoomRepo;
 import com.birgit.swhotel.repo.UserRepo;
 import com.birgit.swhotel.service.BookingService;
+import com.birgit.swhotel.service.UserService;
 import com.birgit.swhotel.utils.DateUtils;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,56 +27,54 @@ import javax.transaction.Transactional;
 public class HotelModel implements Serializable
 {
     @Inject
-    private HotelRepo hotelService;
+     HotelRepo hotelRepo;
     
     @Inject 
     private BookingService bookingService;
     
     @Inject
-    private RoomRepo roomRepo;
+     RoomRepo roomRepo;
     
     @Inject 
-    private UserRepo userRepo;
+     UserRepo userRepo;
+    
+    @Inject
+    private UserService userService;
     
     
-    private List<Hotel> hotels;
-    
-    private String search = null;
     private Hotel currentHotel = null;
 
     
     @PostConstruct
     public void init() 
     {
-        this.hotels = hotelService.getAllHotels();
+        this.hotels = hotelRepo.getAll();
     }
     
+    // hotels ********************************************
+    private List<Hotel> hotels;
     
+    private String search = null;
+    
+    // ##### not working: query 
     public List<Hotel> searchHotel()
     {
         System.out.println("search for hotel: "+search);
-        this.hotels = hotelService.findHotelByString(search);
+        this.hotels = hotelRepo.findHotelByString(search);
         return hotels;
     }
-    
-    // booking ********************************************
     
     public String showDetail(Hotel hotel)
     {
         currentHotel = hotel;
-        loadRooms();
+        currentBooking = new Booking();
+        //loadRooms();
+        getAvailableRooms();
         return "hotelDetail";
     }
     
+    // hotel Detailed  ********************************************
    
-    /*public void checkAvailability()
-    {
-        String dateString = dateYear+"-"+dateMonth+"-"+dateDay;
-        Date date = Date.valueOf(dateString);
-        List<Room> availableRooms = bookingService.checkAvailibility(currentHotel, date, nights);
-        rooms2rent = "#rooms:  "+availableRooms.size();
-        
-    }*/
     private int dateDay = 1;
     private int dateMonth = 8;
     private int dateYear = 2017;
@@ -88,72 +88,96 @@ public class HotelModel implements Serializable
         rooms = roomRepo.getHotelRooms(currentHotel);
     }
     
-    private Room currentRoom = null;
+    //private Room currentRoom = null;
     private Booking currentBooking = null;
     
     public void getAvailableRooms()
     {
         Date date = DateUtils.stringToDate(dateDay, dateMonth, dateYear);
+        currentBooking.setArrival(date);
+        currentBooking.setNights(nights);
         rooms = bookingService.getAvailableRooms(currentHotel, date, nights);
     }
     
     public String bookRoom(Room room)
     {
-        currentRoom = room;
-        currentBooking = new Booking();
-        currentBooking.setRoom(currentRoom);
-        System.out.println("0 DATE: "+dateDay+"."+dateMonth+"."+dateYear);
-        currentBooking.setArrival(DateUtils.stringToDate(dateDay, dateMonth, dateYear));
-        currentBooking.setNights(nights);
-        System.out.println("1 DATE: "+currentBooking.getArrival());
+        //currentRoom = room;
+        //currentBooking = new Booking();
+        currentBooking.setRoom(room);
+        //currentBooking.setArrival(DateUtils.stringToDate(dateDay, dateMonth, dateYear));
+        //currentBooking.setNights(nights);
+        User user = userService.checkAuthentification();
+        if(user == null)
+            return "loginOrRegister";
         
+        currentBooking.setUser(user);
+       
         return "bookingDetail";
+    }
+    
+    @Transactional
+    public String makeBooking()
+    {
+        /**register();
+        if(loggedInUser == null)
+        {
+            message = "wrong log in data";
+            return "bookingDetails";
+        }*/
+        User user = userService.checkAuthentification();
+        currentBooking.setUser(user);
+        Booking booking = bookingService.makeBooking(currentBooking);
+        System.out.println("2 DATE: "+booking.getArrival());
+        
+        getBookingsForUser();
+        return "bookings";
+    }
+    
+    
+    // bookings
+    
+    
+    List<Booking> userBookings;
+    
+    public String getBookingsForUser()
+    {
+        User user = userService.checkAuthentification();
+        if(user != null)
+        {
+            userBookings = userRepo.getUserBookings(user);
+            return "bookings";
+        }
+        else
+            return "login";
+    }
+    
+    
+    
+    public void deleteBooking(Booking booking)
+    {
+        bookingService.removeBooking(booking);
+        userBookings.remove(booking);
     }
     
     // USER ***********************************
     
     
-    private String email, password;
+    /*private String email, password;
     private User loggedInUser = null;
     private String message;
-    
-    @Transactional
-    public String makeBooking()
-    {
-        register();
-        if(loggedInUser == null)
-        {
-            message = "wrong log in data";
-            return "bookingDetails";
-        }
-        currentBooking.setUser(loggedInUser);
-        Booking booking = bookingService.makeBooking(currentBooking, loggedInUser);
-        System.out.println("2 DATE: "+booking.getArrival());
-        message = "booking successful: "+booking.getId();
-        getBookingsForUser();
-        return "bookings";
-    }
-    
-    // show user booking ****************************
-    
-    List<Booking> userBookings;
-    
-    public void getBookingsForUser()
-    {
-        userBookings = userRepo.getUserBookings(loggedInUser);
-    }
     
     public void register()
     {
         loggedInUser = userRepo.authenticateUser(email, password);
-    }
+    }*/
     
-    public void deleteBooking(Booking booking)
-    {
-        bookingService.removeBooking(loggedInUser, booking);
-        userBookings.remove(booking);
-    }
     
+    // special getter
+    
+    public List<Hotel> getHotels() 
+    {  
+        return hotelRepo.getAll();
+    }
 
     // getter & setter **********************************
     
@@ -167,10 +191,7 @@ public class HotelModel implements Serializable
         this.currentHotel = currentHotel;
     }
     
-    public List<Hotel> getHotels() 
-    {  
-        return hotels;
-    }
+    
     
     public void setHotels(List<Hotel> hotels) 
     {
@@ -228,7 +249,7 @@ public class HotelModel implements Serializable
         this.rooms = rooms;
     }
 
-    public Room getCurrentRoom() {
+    /*public Room getCurrentRoom() {
         return currentRoom;
     }
 
@@ -266,7 +287,7 @@ public class HotelModel implements Serializable
 
     public void setMessage(String message) {
         this.message = message;
-    }
+    }*/
 
     public List<Booking> getUserBookings() {
         return userBookings;

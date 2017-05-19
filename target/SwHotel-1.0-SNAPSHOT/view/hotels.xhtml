@@ -20,6 +20,19 @@
                      <h:commandButton action="#{hotelModel.searchHotel()}" value="search"/>
                  </h:form>
                  
+                 <h:form>
+                    <div>
+                        <p>when do you arrive?</p>
+                        <h:inputText value="#{hotelModel.dateDay}"/>
+                        <h:inputText value="#{hotelModel.dateMonth}"/>
+                        <h:inputText value="#{hotelModel.dateYear}"/>
+                     </div>
+                     <div>
+                        <p>how many nights do you want to stay?</p>
+                        <h:inputText value="#{hotelModel.nights}"/>
+                     </div>
+                     </h:form>
+                 
                  <!-- auswahlMenü -->
                  
                  <h:form>

@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Booking extends EntityClass
+public class Booking extends SingleIdEntity
 {
     @ManyToOne
     private User user;

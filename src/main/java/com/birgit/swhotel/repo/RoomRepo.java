@@ -3,86 +3,42 @@ package com.birgit.swhotel.repo;
 
 import com.birgit.swhotel.entity.Hotel;
 import com.birgit.swhotel.entity.Room;
-import com.birgit.swhotel.entity.RoomType;
-import com.birgit.swhotel.entity.User;
-import java.sql.Date;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 @RequestScoped
-public class RoomRepo 
+public class RoomRepo extends SingleIdEntityRepository implements Serializable
 {
-    @PersistenceContext(unitName="SwHotelPU")
-    private EntityManager entityManager;
-    
     @Inject
     Logger logger;
     
-    // Schreibzugriff
-    @Transactional
-    public Room addRoom(Room room)
+    public RoomRepo()
     {
-        entityManager.persist(room);
-        return room;
+        super(Room.class);
     }
-    
-    @Transactional
-    public Room deleteRoom(Room room)
-    {
-        room = entityManager.merge(room);
-        entityManager.remove(room);
-        return room;
-    }
-    
-    // Lesezugriff
-    public List<Room> getAllRooms()
-    {
-        TypedQuery<Room> query = entityManager.createQuery("SELECT r FROM Room AS r", Room.class);
-        List<Room> result = query.getResultList();
-        System.out.println("service: rooms retrieved: "+result.size());
-        return result;
-    }
-    
-    public Room getRoomById(long id)
-    {
-        Room room = entityManager.find(Room.class, id);
-        return room;
-    }
-    
     
     
     @Transactional
     public List<Room> getHotelRooms(Hotel hotel)
     {
         long hotelId = hotel.getId();
-        logger.info("######### search rooms: "+hotelId);
         
-        try{
-        TypedQuery<Room> query = entityManager.createQuery(
+        TypedQuery<Room> query = this.getEntityManager().createQuery(
             "SELECT r FROM Room r WHERE  r.hotel.id = :parameter1", Room.class);
         query.setParameter("parameter1", hotelId);
         List<Room> hotelRooms = query.getResultList();
         
-        
-        logger.info("######### rooms found: "+hotelRooms.size());
-        
+        logger.info(hotelRooms.size()+" rooms at "+hotel.getId());
         if(hotelRooms.size() <= 0)
             return null;
         else 
             return hotelRooms;
-        }
-        catch(Exception e)
-        {
-            logger.info("######### exception: ");
-            e.printStackTrace();
-        }
-        return null;
     }
+    
+    
 }

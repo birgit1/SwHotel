@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Room extends EntityClass
+public class Room extends SingleIdEntity
 {
     @ManyToOne
     private RoomType roomType;

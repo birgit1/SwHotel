@@ -23,13 +23,13 @@ public class BookingService
     private Logger logger;
     
     @Inject
-    private RoomRepo roomRepo;
+     RoomRepo roomRepo;
     
     @Inject
-    private BookingRepo bookingRepo;
+     BookingRepo bookingRepo;
     
     @Inject
-    private UserRepo userRepo;
+     UserRepo userRepo;
   
     
     @Transactional
@@ -37,41 +37,38 @@ public class BookingService
     {
         // find all rooms in certain hotel
         List<Room> hotelRooms;
-        logger.info("########### BookingService: check availalbility");
         // get all rooms of hotel
+        
         try{
         hotelRooms = roomRepo.getHotelRooms(hotel);
         logger.info("# hotel rooms found: "+hotelRooms.size());
         }
         catch(Exception e)
         {
-            logger.info("FAIL finding hotel rooms 1");
-            e.printStackTrace();
+            logger.info("no rooms in hotel");
             return null;
         }
-        
+         List<Room> availableRooms;   
         try{
-            
         // get all bookings for all rooms in hotel and return if they are available at the time
-        List<Room> availableRooms = bookingRepo.getAvailableRooms(hotelRooms, date, nights);
+        availableRooms = bookingRepo.getAvailableRooms(hotelRooms, date, nights);
         logger.info("# available rooms found: "+availableRooms.size());
-        return availableRooms;
         }
         catch(Exception e)
         {
-            logger.info("FAIL finding available rooms 2");
-            e.printStackTrace();
+            logger.info("all rooms booked out");
+            return null;
         }
-        return null;
-        
+        return availableRooms; 
     }
     
     @Transactional
-    public Booking makeBooking(Booking booking, User user)
+    public Booking makeBooking(Booking booking)
     {
-        Booking b = bookingRepo.addBooking(booking);
+        bookingRepo.persist(booking);
+        User user = booking.getUser();
         userRepo.addBookingToUser(user, booking);
-        logger.info("booking successful: "+b.getId());
+        logger.info("booking successful: ");
         return booking;
     }
     
@@ -80,9 +77,9 @@ public class BookingService
     {
         User user = booking.getUser();
         userRepo.removeBooking(user, booking);
-         Booking b = bookingRepo.deleteBooking(booking);
-         logger.info("booking deleted: "+b.getId());
-       return booking;
+        bookingRepo.delete(booking);
+        logger.info("booking deleted: "+booking.getId());
+        return booking;
     }
     
     

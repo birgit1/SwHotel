@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class EntityClass implements Serializable 
+public abstract class SingleIdEntity implements Serializable 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +38,7 @@ public abstract class EntityClass implements Serializable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final EntityClass other = (EntityClass) obj;
+        final SingleIdEntity other = (SingleIdEntity) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

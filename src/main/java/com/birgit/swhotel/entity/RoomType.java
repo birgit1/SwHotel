@@ -4,7 +4,7 @@ package com.birgit.swhotel.entity;
 import javax.persistence.Entity;
 
 @Entity
-public class RoomType extends EntityClass
+public class RoomType extends SingleIdEntity
 {
     private int beds;
     private String roomName;

@@ -6,13 +6,16 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form>
-            <p> enter password </p>
-            <h:inputSecret value="#{adminModel.adminPassword}"/>
-            
-            <h:commandButton value="submit" action="#{adminModel.authenticateAdmin()}"/>
-            <h:outputText value ="#{adminModel.wrongPasswordMsg} "/>
-        </h:form>
+        
+        <div align="center">
+            <h:form>
+                <p> enter password </p>
+                <h:inputSecret value="#{adminModel.adminPassword}"/>
+
+                <h:commandButton value="submit" action="#{adminModel.authenticateAdmin()}"/>
+                <h:outputText value ="#{adminModel.wrongPasswordMsg} "/>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

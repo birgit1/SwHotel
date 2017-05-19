@@ -27,9 +27,9 @@ public class AdminModel
     @PostConstruct
     public void init() 
     {
-        this.hotelList = hotelService.getAllHotels();
-        this.roomTypeList = roomTypeService.getAllRoomTypes();
-        this.roomList = roomService.getAllRooms();
+        this.hotelList = hotelService.getAll();
+        this.roomTypeList = roomTypeService.getAll();
+        this.roomList = roomService.getAll();
     }
     
     // authentification
@@ -65,7 +65,7 @@ public class AdminModel
         hotel.setPriceFactor(priceFactor);
         hotel.setInfo(hotelInfo);
         
-        Hotel addedHotel = hotelService.addHotel(hotel);
+        Hotel addedHotel = (Hotel) hotelService.persist(hotel);
         hotelList.add(addedHotel);
         System.out.println("hotel added "+addedHotel.getId());
         hotelName = null;
@@ -79,7 +79,7 @@ public class AdminModel
     public void deleteHotel(Hotel hotel)
     {
         System.out.println("delete hotel "+hotel.getName());
-        hotelService.deleteHotel(hotel);
+        hotelService.delete(hotel);
         hotelList.remove(hotel);
         System.out.println("hotel "+hotel.getId()+" deleted");
     }
@@ -98,7 +98,7 @@ public class AdminModel
         roomType.setRoomName(roomTypeName);
         roomType.setBeds(beds);
         roomType.setStandardPrice(standardPrice);
-        roomTypeService.addRoomType(roomType);
+        roomTypeService.persist(roomType);
         roomTypeList.add(roomType);
         System.out.println("roomType added "+roomType.getId());
         roomTypeName = null;
@@ -108,7 +108,7 @@ public class AdminModel
     
     public void deleteRoomType(RoomType roomType)
     {
-        roomTypeService.deleteRoomType(roomType);
+        roomTypeService.delete(roomType);
         roomTypeList.remove(roomType);
     }
     
@@ -125,7 +125,7 @@ public class AdminModel
     {
         Room room = new Room(currentHotelRoomSelection, currentRoomTypeRoomSelection);
        
-        roomService.addRoom(room);
+        roomService.persist(room);
         roomList.add(room);
         System.out.println("room added "+room.getId());
         currentHotelRoomSelection = null;
@@ -134,7 +134,7 @@ public class AdminModel
     
     public void deleteRoom(Room room)
     {
-        roomService.deleteRoom(room);
+        roomService.delete(room);
         roomList.remove(room);
     }
     

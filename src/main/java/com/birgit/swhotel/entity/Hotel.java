@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Hotel extends EntityClass
+public class Hotel extends SingleIdEntity
 {
     // primary key
     private String name;

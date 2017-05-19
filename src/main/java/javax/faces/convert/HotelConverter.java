@@ -5,7 +5,7 @@
  */
 package javax.faces.convert;
 
-import com.birgit.swhotel.entity.EntityClass;
+import com.birgit.swhotel.entity.SingleIdEntity;
 import com.birgit.swhotel.repo.HotelRepo;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,9 +20,9 @@ public class HotelConverter extends AbstractConverterClass
     private HotelRepo hotelService;
 
     @Override
-    public EntityClass findById(Long id) 
+    public SingleIdEntity findById(Long id) 
     {
-        return hotelService.getHotelById(id);
+        return hotelService.getById(id);
     }
     
 }
