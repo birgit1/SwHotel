@@ -1,10 +1,15 @@
 
 package com.birgit.swhotel.model;
 
+import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.User;
 import com.birgit.swhotel.repo.UserRepo;
+import com.birgit.swhotel.service.BookingService;
 import com.birgit.swhotel.service.UserService;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -21,12 +26,14 @@ public class UserModel implements Serializable
     @Inject
     private UserRepo userRepo;
     
+    @Inject
+    private BookingService bookingService;
+    
     private User loggedInUser = null;
     private String email, password, name;
     private String message = null;
     
-    
-    public void registerUser()
+    public String registerUser()
     {
         User user = new User();
         if(name != null && email != null && password != null)
@@ -35,35 +42,51 @@ public class UserModel implements Serializable
             user.setName(name);
             user.setPassword(password);
             User u = userService.registerUser(user);
-            authenticateUser();
         }
+        return "bookingDetail";
     }
     
-    public void authenticateUser()
+    public String login()
     {
-        loggedInUser = userRepo.authenticateUser(email, password);
+        
+        if(authenticateUser()!= null)
+            return "bookings";
+        return null;
+    }
+    
+    public String loginBook()
+    {
+        if(authenticateUser()!= null)
+            return "bookingDetail";
+        return null;
+    }
+    
+    private User authenticateUser()
+    {
+        loggedInUser = userService.login(email, password);
         if(loggedInUser == null)
         {
             message = "authentification fail; wrong password or email";
+            return null;
         }
-        else
-        {
+        
             message = "authentificated";
-        }
         email = null;
         password = null;
         name = null;
+        return loggedInUser;
+    }
+    
+    public String logout()
+    {
+        userService.logout();
+        return "hotels";
     }
     
     // getter & setter *********************************************
 
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
+    
 
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
 
     public String getEmail() {
         return email;
@@ -96,5 +119,57 @@ public class UserModel implements Serializable
     public void setName(String name) {
         this.name = name;
     }
+    /// bookings ****************
+    private List<Booking> userBookings = new ArrayList<>();
+    
+    public String gotoLogin()
+    {
+        System.out.println("go to login");
+        return "login";
+    }
+    
+    public String getBookingsForUser()
+    {
+        User u = userService.checkAuthentification();
+        if(u != null)
+        {
+            System.out.println("session user: "+u.toString());
+            userBookings = userRepo.getUserBookings(u);
+            return "bookings";
+        }
+        else
+        {
+            System.out.println("NO session user: login first");
+            return "login";
+        }
+    }
+    
+    
+    
+    public void deleteBooking(Booking booking)
+    {
+        bookingService.removeBooking(booking);
+        userBookings.remove(booking);
+    }
+    
+   
+    public List<Booking> getUserBookings() 
+    {
+        User u = userService.checkAuthentification();
+        if(u == null)
+        {
+            System.out.println("NO session user: login first");
+            login();
+            return null;
+        }
+        System.out.println(" session user: "+u.toString());
+            
+        userBookings = userRepo.getUserBookings(u);
+        return userBookings;
+    }
 
+    public void setUserBookings(List<Booking> userBookings) {
+        this.userBookings = userBookings;
+    }
+    
 }

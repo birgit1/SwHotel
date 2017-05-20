@@ -17,6 +17,7 @@ com\birgit\swhotel\model\AdminModel.class
 com\birgit\swhotel\model\BookingModel.class
 com\birgit\swhotel\entity\Hotel.class
 com\birgit\swhotel\entity\User_.class
+com\birgit\swhotel\service\RoomService.class
 com\birgit\swhotel\entity\Payment_.class
 javax\faces\convert\HotelConverter.class
 javax\faces\convert\AbstractConverterClass.class

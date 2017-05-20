@@ -19,9 +19,9 @@
                          email: 
                          <h:inputText value="#{userModel.email}"/>
                          password:
-                         <h:inputText value="#{userModel.password}"/>
+                         <h:inputSecret value="#{userModel.password}"/>
                           
-                         <h:commandButton action="#{userModel.authenticateUser()}" value="log in"/>
+                         <h:commandButton action="#{userModel.login()}" value="log in"/>
                     </h:form>
                  
                  <h:outputText value="#{userModel.message}"/>

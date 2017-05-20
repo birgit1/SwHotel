@@ -3,6 +3,7 @@ package com.birgit.swhotel.repo;
 
 import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.Room;
+import com.birgit.swhotel.entity.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,15 +62,19 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
         for(int i=0; i<rooms.size(); i++)
         {
             long roomId = rooms.get(i).getId();
+            // get all bookings for one room
             TypedQuery<Booking> query = this.getEntityManager().createQuery(
             "SELECT b FROM Booking b WHERE  b.room.id = :parameter1", Booking.class);
             query.setParameter("parameter1", roomId);
+  
             List<Booking> roomBookings = query.getResultList();
             logger.info("bookings for room: "+roomBookings.size());
             
             boolean available = true;
+            // there are already bookings for that room
             if(roomBookings != null && roomBookings.size() > 0)
             {
+                // compare bookings date
                 for(int j=0; j<roomBookings.size(); j++)
                 {
                      available = roomBookings.get(j).compareRoomAvailability(arrivalDate, nights);
@@ -88,6 +93,17 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
         }
         logger.info("repo: #available rooms: "+availableRooms.size());
         return availableRooms;
+    }
+    
+    public List<Booking> getBookingsByUser(User user)
+    {
+        TypedQuery<Booking> query = this.getEntityManager().createQuery(
+            "SELECT b FROM Booking b WHERE  b.user.id = :parameter1", Booking.class);
+            query.setParameter("parameter1", user.getId());
+  
+            List<Booking> bookings = query.getResultList();
+            System.out.println("#bookings: "+bookings.size());
+            return bookings;
     }
     
 }

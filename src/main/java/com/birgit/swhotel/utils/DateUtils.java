@@ -45,5 +45,18 @@ public class DateUtils
         return dateList;
     }
     
+    public static String dateToString(Date date)
+    {
+        String str = "";
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        str += calendar.get(Calendar.DAY_OF_MONTH);
+        str+=".";
+        str+=calendar.get(Calendar.MONTH) + 1;
+        str+=".";
+        str+= calendar.get(Calendar.YEAR);
+        return str;
+    }
+    
     
 }

@@ -15,24 +15,18 @@
                  </h3>
                  <div>
                     <p>You are booking</p>
-                    <p> at <h:outputText value="#{hotelModel.currentHotel.name}"/> hotel</p>
-                    <p> room <h:outputText value="#{hotelModel.currentRoom.roomType.roomName}"/></p>
+                    <p> at <h:outputText value="#{hotelModel.currentBooking.room}"/> hotel</p>
+                    <p> room <h:outputText value="#{hotelModel.currentHotel.name}"/></p>
                  </div>
                      
                  <div>
-                     <p> sign in to complete your booking </p>
+                     <p> confirm your booking </p>
                      <h:form>
-                         email: 
-                         <h:inputText value="#{hotelModel.email}"/>
-                         password:
-                         <h:inputHidden value="#{hotelModel.password}"/>
-                         <h:inputSecret value="#{hotelModel.password}"/>
-                          
+                         
                          <h:commandButton action="#{hotelModel.makeBooking()}" value="make booking"/>
                     </h:form>
                  </div>
                  
-                 <h:outputText value="#{hotelModel.message}"/>
                 
                  
              </ui:define>

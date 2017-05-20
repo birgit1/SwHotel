@@ -23,6 +23,8 @@ public class User extends SingleIdEntity implements Serializable
     
     @OneToMany(mappedBy="user")
     private List<Booking> bookings;
+    
+    private Payment payment;
 
     public User ()
     { 

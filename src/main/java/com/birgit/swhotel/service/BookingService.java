@@ -1,6 +1,7 @@
 
 package com.birgit.swhotel.service;
 
+import com.birgit.swhotel.service.payment.AbstractPaymentService;
 import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.Hotel;
 import com.birgit.swhotel.entity.Room;
@@ -14,8 +15,11 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.transaction.Transactional;
 
+//@WebService
 @RequestScoped
 public class BookingService 
 {
@@ -30,8 +34,14 @@ public class BookingService
     
     @Inject
      UserRepo userRepo;
-  
     
+    @Inject 
+    private UserService userService;
+    
+    @Inject
+    private AbstractPaymentService paymentService;
+  
+    //@WebMethod
     @Transactional
     public List<Room> getAvailableRooms(Hotel hotel, Date date, int nights)
     {
@@ -40,6 +50,7 @@ public class BookingService
         // get all rooms of hotel
         
         try{
+            
         hotelRooms = roomRepo.getHotelRooms(hotel);
         logger.info("# hotel rooms found: "+hotelRooms.size());
         }
@@ -63,13 +74,53 @@ public class BookingService
     }
     
     @Transactional
+    //@WebMethode
+    public String makeBookingFromExtern(Room room, Date date, int nights, User user)
+    {
+        // check if user exists if not register
+        // make the booking
+        return "booking id confirmed";
+    }
+    
+    @Transactional
     public Booking makeBooking(Booking booking)
     {
-        bookingRepo.persist(booking);
-        User user = booking.getUser();
-        userRepo.addBookingToUser(user, booking);
+        User user;
+        try{
+         user = userService.checkAuthentification();
+        booking.setUser(user);
+        System.out.println(user.toString());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("user authentication fail");
+            return null;
+        }
+        try{
+            if(!paymentService.pay(booking.getTotalPrice()))
+                return null;
+            
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
+        try{
+        System.out.println("make booking");
+        Booking addedBooking = (Booking) bookingRepo.persist(booking);
+        
+        userRepo.addBookingToUser(user, addedBooking);
         logger.info("booking successful: ");
         return booking;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("booking fail");
+            return null;
+        }
+        
     }
     
     @Transactional

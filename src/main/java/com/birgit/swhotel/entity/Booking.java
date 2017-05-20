@@ -1,5 +1,3 @@
-
-
 package com.birgit.swhotel.entity;
 
 import com.birgit.swhotel.utils.DateUtils;
@@ -9,35 +7,35 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Booking extends SingleIdEntity
-{
+public class Booking extends SingleIdEntity {
+
     @ManyToOne
     private User user;
     @ManyToOne
     private Room room;
-    
+
     private int nights;
     private Date arrival;
+    private String arrivalStr;
     private double totalPrice;
-    
-    public Booking()
-    {
+
+    public Booking() {
         super();
     }
-    
-    public Booking(Room room)
-    {
+
+    public Booking(Room room) {
         this.room = room;
     }
-    
-    public boolean compareRoomAvailability(Date arrivalDate, int nnights)
-    {
+
+    public boolean compareRoomAvailability(Date arrivalDate, int nnights) {
         List<Date> otherDate = DateUtils.getTimeList(arrivalDate, nnights);
         List<Date> thisDate = DateUtils.getTimeList(this.arrival, this.nights);
-        for(int i=0; i<otherDate.size(); i++)
-        {
-            if(thisDate.contains(otherDate.get(i))== true)
-            {
+        for (int i = 0; i < otherDate.size(); i++) {
+            if (thisDate.contains(otherDate.get(i)) == true) {
+                System.out.println("other date: " + otherDate.get(i));
+                for (int b = 0; b < thisDate.size(); b++) {
+                    System.out.println("#" + b + ": " + thisDate.get(b));
+                }
                 System.out.println("NOT available");
                 return false;
             }
@@ -46,6 +44,22 @@ public class Booking extends SingleIdEntity
         return true;
     }
 
+    // getter and setter modified ************
+    public void setRoom(Room room) {
+        this.room = room;
+        if (nights > 0) {
+            this.totalPrice = this.room.getPrice() * nights;
+        }
+    }
+
+    public void setNights(int nights) {
+        this.nights = nights;
+        if (this.room != null) {
+            this.totalPrice = this.room.getPrice() * nights;
+        }
+    }
+
+    // getter and setter ******************
     public User getUser() {
         return user;
     }
@@ -58,18 +72,8 @@ public class Booking extends SingleIdEntity
         return room;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
     public int getNights() {
         return nights;
-    }
-
-    public void setNights(int nights) 
-    {
-        this.nights = nights;
-        this.totalPrice = this.room.getPrice()*nights;
     }
 
     public Date getArrival() {
@@ -78,7 +82,14 @@ public class Booking extends SingleIdEntity
 
     public void setArrival(Date arrival) {
         this.arrival = arrival;
+        this.arrivalStr = DateUtils.dateToString(arrival);
     }
+
+    public String getArrivalStr() {
+        return arrivalStr;
+    }
+    
+    
 
     public double getTotalPrice() {
         return totalPrice;
@@ -87,6 +98,5 @@ public class Booking extends SingleIdEntity
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
-    
-    
+
 }

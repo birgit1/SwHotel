@@ -55,6 +55,11 @@
             <to-view-id>view/loginRegister.xhtml</to-view-id>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>bookingFail</from-outcome>
+            <to-view-id>view/bookingFail.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
     
 </faces-config>

@@ -12,12 +12,17 @@
 
              <ui:define name="content">
                  <h1>
-                     Hello <h:outputText value="#{hotelModel.loggedInUser.name}"/>
+                     Hello <h:outputText value="username"/>
                       </h1>
                      
-                 <h3> your bookings </h3>   
+                 <h3> 
+                     <h:form>
+                         your bookings 
+                         <h:commandButton action="#{userModel.logout()}" value="logout"/>
+                     </h:form>
+                 </h3>   
                  <h:form>
-                 <h:dataTable var="b" value="#{hotelModel.userBookings}">
+                     <h:dataTable var="b" value="#{bookingModel.userBookings}">
                         <h:column>
                             <f:facet name="header">Hotel</f:facet>
                             <h:outputText value="#{b.room.hotel.name}"/>
@@ -32,7 +37,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Arrival Date</f:facet>
-                            <h:outputText value="#{b.arrival}"/>
+                            <h:outputText value="#{b.arrivalStr}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header"># Nights</f:facet>
@@ -40,7 +45,7 @@
                         </h:column>
                      <h:column>
                          <f:facet name="header">Cancel Booking</f:facet>
-                         <h:commandButton action="#{hotelModel.deleteBooking(b)}" value="X"/>
+                         <h:commandButton action="#{bookingModel.deleteBooking(b)}" value="X"/>
                  </h:column>
                     </h:dataTable>
                      </h:form>

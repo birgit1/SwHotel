@@ -7,6 +7,7 @@ import com.birgit.swhotel.entity.RoomType;
 import com.birgit.swhotel.repo.HotelRepo;
 import com.birgit.swhotel.repo.RoomRepo;
 import com.birgit.swhotel.repo.RoomTypeRepo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -30,6 +31,12 @@ public class AdminModel
         this.hotelList = hotelService.getAll();
         this.roomTypeList = roomTypeService.getAll();
         this.roomList = roomService.getAll();
+        if(this.hotelList == null)
+            this.hotelList = new ArrayList<>();
+        if(this.roomTypeList == null)
+            this.roomTypeList = new ArrayList<>();
+        if(this.roomList == null)
+            this.roomList = new ArrayList<>();
     }
     
     // authentification
@@ -66,8 +73,14 @@ public class AdminModel
         hotel.setInfo(hotelInfo);
         
         Hotel addedHotel = (Hotel) hotelService.persist(hotel);
+        
+        if(addedHotel != null)
+        {
         hotelList.add(addedHotel);
         System.out.println("hotel added "+addedHotel.getId());
+        }
+        else
+        System.out.println("hotel null");
         hotelName = null;
         city = null;
         country = null;

@@ -64,6 +64,11 @@ public class HotelModel implements Serializable
         return hotels;
     }
     
+    public String startBookingProcess()
+    {
+        return "hotels";
+    }
+    
     public String showDetail(Hotel hotel)
     {
         currentHotel = hotel;
@@ -118,15 +123,13 @@ public class HotelModel implements Serializable
     @Transactional
     public String makeBooking()
     {
-        /**register();
-        if(loggedInUser == null)
-        {
-            message = "wrong log in data";
-            return "bookingDetails";
-        }*/
-        User user = userService.checkAuthentification();
-        currentBooking.setUser(user);
+        System.out.println("model: make bboking");
+        //User user = userService.checkAuthentification();
+        //System.out.println(user.toString());
+        //currentBooking.setUser(user);
         Booking booking = bookingService.makeBooking(currentBooking);
+        if(booking == null)
+            return "bookingFail";
         System.out.println("2 DATE: "+booking.getArrival());
         
         getBookingsForUser();
@@ -295,6 +298,14 @@ public class HotelModel implements Serializable
 
     public void setUserBookings(List<Booking> userBookings) {
         this.userBookings = userBookings;
+    }
+
+    public Booking getCurrentBooking() {
+        return currentBooking;
+    }
+
+    public void setCurrentBooking(Booking currentBooking) {
+        this.currentBooking = currentBooking;
     }
     
     

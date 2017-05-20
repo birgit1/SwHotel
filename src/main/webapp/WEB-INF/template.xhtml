@@ -23,9 +23,7 @@
                     &nbsp;
                     <h:commandLink value="Hotels" action="hotels"/>
                     &nbsp;
-                    <h:commandLink value="User" action="users"/>
-                    &nbsp;
-                    <h:commandLink value="MyBookings" action="bookings"/>
+                    <h:commandLink value="MyBookings" action="#{bookingModel.checkLogin()}"/>
                 </h:form>
             </h:panelGrid>
             <p>

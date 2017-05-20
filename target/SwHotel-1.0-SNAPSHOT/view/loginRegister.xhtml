@@ -19,9 +19,9 @@
                          email: 
                          <h:inputText value="#{userModel.email}"/>
                          password:
-                         <h:inputText value="#{userModel.password}"/>
+                         <h:inputSecret value="#{userModel.password}"/>
                           
-                         <h:commandButton action="#{userModel.authenticateUser()}" value="log in"/>
+                         <h:commandButton action="#{userModel.loginBook()}" value="log in"/>
                     </h:form>
                  
                  <h:outputText value="#{userModel.message}"/>
@@ -36,8 +36,9 @@
                          email: 
                          <h:inputText value="#{userModel.email}"/>
                          password:
-                         <h:inputText value="#{userModel.password}"/>
-                         creditcardnumber
+                         <h:inputSecret value="#{userModel.password}"/>
+                         
+                         
                           
                          <h:commandButton action="#{userModel.registerUser()}" value="register"/>
                     </h:form>
