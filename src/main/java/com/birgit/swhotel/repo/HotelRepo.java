@@ -32,10 +32,13 @@ public class HotelRepo extends SingleIdEntityRepository implements Serializable
     
     public List<Hotel> findHotelByString(String s)
     {
-        TypedQuery query = this.getEntityManager().createQuery("SELECT h FROM Hotel h WHERE h.name=: s OR h.address.city := s OR h.address.country =: s", Hotel.class);
+        TypedQuery query = this.getEntityManager().createQuery("SELECT h FROM Hotel h WHERE h.name like :s OR h.address.city like :s OR h.address.country like :s", Hotel.class);
         query.setParameter("s", s);
         List<Hotel> hotels = query.getResultList();
-        logger.log(Level.INFO, "# hotels found", hotels.size());
+        if(hotels == null)
+            logger.info("no hotel found");
+        else
+            logger.info(hotels.get(0).toString());
         return hotels;
     }
     

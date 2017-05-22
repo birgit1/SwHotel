@@ -11,37 +11,50 @@
          <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
+                 <div class="page-header"> 
+                    <h2>
                      Login
-                      </h1>
+                      </h2>
+                 </div>
                      
                      <h:form>
                          email: 
-                         <h:inputText value="#{userModel.email}"/>
+                         <h:inputText class="form-control" value="#{userModel.email}"/>
                          password:
-                         <h:inputSecret value="#{userModel.password}"/>
-                          
-                         <h:commandButton action="#{userModel.loginBook()}" value="log in"/>
+                         <h:inputSecret class="form-control" value="#{userModel.password}"/>
+                         <p></p>
+                         <div  class="btn btn-warning">
+                                <h:commandLink action="#{userModel.loginBook()}" value="SIGN IN"/>
+                            </div>
+                         <!--<h:commandButton action="#{userModel.loginBook()}" value="log in"/>
+                         -->
                     </h:form>
                  
-                 <h:outputText value="#{userModel.message}"/>
+                 <h:form rendered="#{userModel.isWrongLogin()}">
+                 <div class="alert alert-danger" role="alert">
+                     <h:outputText value="authentication failed; wrong username or password" />
+                 </div>
+                 </h:form>    
                 
-                 <h1>
+                 <div class="page-header"> 
+                    <h2>
                      Register
-                      </h1>
+                      </h2>
+                 </div>
                      
                      <h:form>
                          name 
-                         <h:inputText value="#{userModel.name}"/>
+                         <h:inputText class="form-control" value="#{userModel.name}"/>
                          email: 
-                         <h:inputText value="#{userModel.email}"/>
+                         <h:inputText class="form-control" value="#{userModel.email}"/>
                          password:
-                         <h:inputSecret value="#{userModel.password}"/>
+                         <h:inputSecret class="form-control" value="#{userModel.password}"/>
+                         <p></p>
+                         <div  class="btn btn-warning">
+                                <h:commandLink action="#{userModel.registerUser()}" value="SIGN UP"/>
+                         </div>
                          
-                         
-                          
-                         <h:commandButton action="#{userModel.registerUser()}" value="register"/>
-                    </h:form>
+                     </h:form>
                  
              </ui:define>
          </ui:composition>

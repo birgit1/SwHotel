@@ -34,7 +34,7 @@ public class BookingModel
     
     //private String userName;
     private List<Booking> userBookings = new ArrayList<>();
-    
+   
     public String checkLogin()
     {
         if(userService.checkAuthentification()== null)
@@ -70,16 +70,6 @@ public class BookingModel
         userBookings.remove(booking);
     }
     
-    /*public String getUserName()
-    {
-        User u = userService.checkAuthentification();
-        if(u!= null)
-            return u.getName();
-        return "login";
-                    
-    }*/
-    
-    
 
     public List<Booking> getUserBookings() 
     {
@@ -91,11 +81,29 @@ public class BookingModel
         for(Booking b: userBookings)
             System.out.println(TAG+"booking: "+b.toString());
         System.out.println("#bookings for user: "+userBookings.size());
+        
         return userBookings;
+    }
+    
+    public boolean userHasBookings()
+    {
+        if(userBookings == null || userBookings.size() <= 0)
+        {
+            System.out.println("no user bookings");
+            return false;
+        }
+        System.out.println(" user bookings");
+        return true;            
+    }
+    public boolean userHasNoBookings()
+    {
+        return (!userHasBookings());
     }
 
     public void setUserBookings(List<Booking> userBookings) {
         this.userBookings = userBookings;
     }
+
     
-}
+    
+}   

@@ -56,18 +56,26 @@ public class HotelModel implements Serializable
     
     private String search = null;
     
-    // ##### not working: query 
-    public List<Hotel> searchHotel()
+    // ##### not working: show result 
+    public void searchHotel()
     {
         System.out.println("search for hotel: "+search);
-        this.hotels = hotelRepo.findHotelByString(search);
-        return hotels;
+        List<Hotel> searchResult = hotelRepo.findHotelByString(search);
+        System.out.println("#hotels: "+this.hotels.size());
+        for(int i=0; i<hotels.size(); i++)
+        {
+            if(!searchResult.contains(hotels.get(i)))
+            {
+                hotels.remove(i);
+                i--;
+            }
+        }
     }
     
-    public String startBookingProcess()
+    /*public String startBookingProcess()
     {
         return "hotels";
-    }
+    }*/
     
     public String showDetail(Hotel hotel)
     {
@@ -77,6 +85,8 @@ public class HotelModel implements Serializable
         getAvailableRooms();
         return "hotelDetail";
     }
+    
+    
     
     // hotel Detailed  ********************************************
    
@@ -93,7 +103,7 @@ public class HotelModel implements Serializable
         rooms = roomRepo.getHotelRooms(currentHotel);
     }
     
-    //private Room currentRoom = null;
+    
     private Booking currentBooking = null;
     
     public void getAvailableRooms()
@@ -103,6 +113,21 @@ public class HotelModel implements Serializable
         currentBooking.setNights(nights);
         rooms = bookingService.getAvailableRooms(currentHotel, date, nights);
     }
+    
+    public boolean hotelBookedOut()
+    {
+        if(rooms == null || rooms.size() <= 0)
+            return true;
+        return false;
+    }
+    
+    public boolean hotelRoomsAvailable()
+    {
+        return (!hotelBookedOut());
+    }
+    
+    
+    // page 2:hotelDetail: choose room
     
     public String bookRoom(Room room)
     {
@@ -120,6 +145,8 @@ public class HotelModel implements Serializable
         return "bookingDetail";
     }
     
+    // page 3: bookingDetail: confirm booking
+    
     @Transactional
     public String makeBooking()
     {
@@ -132,47 +159,15 @@ public class HotelModel implements Serializable
             return "bookingFail";
         System.out.println("2 DATE: "+booking.getArrival());
         
-        getBookingsForUser();
+        //getBookingsForUser();
         return "bookings";
     }
     
-    
-    // bookings
-    
-    
-    List<Booking> userBookings;
-    
-    public String getBookingsForUser()
+    public String bookingFailed()
     {
-        User user = userService.checkAuthentification();
-        if(user != null)
-        {
-            userBookings = userRepo.getUserBookings(user);
-            return "bookings";
-        }
-        else
-            return "login";
+        currentBooking = null;
+        return "hotels";
     }
-    
-    
-    
-    public void deleteBooking(Booking booking)
-    {
-        bookingService.removeBooking(booking);
-        userBookings.remove(booking);
-    }
-    
-    // USER ***********************************
-    
-    
-    /*private String email, password;
-    private User loggedInUser = null;
-    private String message;
-    
-    public void register()
-    {
-        loggedInUser = userRepo.authenticateUser(email, password);
-    }*/
     
     
     // special getter
@@ -252,53 +247,6 @@ public class HotelModel implements Serializable
         this.rooms = rooms;
     }
 
-    /*public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }*/
-
-    public List<Booking> getUserBookings() {
-        return userBookings;
-    }
-
-    public void setUserBookings(List<Booking> userBookings) {
-        this.userBookings = userBookings;
-    }
 
     public Booking getCurrentBooking() {
         return currentBooking;

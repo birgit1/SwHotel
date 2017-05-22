@@ -2,15 +2,16 @@
 package com.birgit.swhotel.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Room extends SingleIdEntity
 {
-    @ManyToOne
+    @ManyToOne//(fetch=FetchType.EAGER)
     private RoomType roomType;
     
-    @ManyToOne
+    @ManyToOne//(fetch=FetchType.EAGER)
     private Hotel hotel;
     private double price;
     

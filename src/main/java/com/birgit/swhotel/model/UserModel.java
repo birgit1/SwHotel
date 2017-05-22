@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class UserModel implements Serializable
 {
     
@@ -32,6 +32,7 @@ public class UserModel implements Serializable
     private User loggedInUser = null;
     private String email, password, name;
     private String message = null;
+    private boolean wrongLogin = false;
     
     public String registerUser()
     {
@@ -67,10 +68,12 @@ public class UserModel implements Serializable
         if(loggedInUser == null)
         {
             message = "authentification fail; wrong password or email";
+            wrongLogin = true;
             return null;
         }
         
             message = "authentificated";
+            wrongLogin = false;
         email = null;
         password = null;
         name = null;
@@ -81,6 +84,11 @@ public class UserModel implements Serializable
     {
         userService.logout();
         return "hotels";
+    }
+    
+    public boolean isWrongLogin()
+    {
+        return wrongLogin;
     }
     
     // getter & setter *********************************************
@@ -120,7 +128,7 @@ public class UserModel implements Serializable
         this.name = name;
     }
     /// bookings ****************
-    private List<Booking> userBookings = new ArrayList<>();
+    /*private List<Booking> userBookings = new ArrayList<>();
     
     public String gotoLogin()
     {
@@ -128,6 +136,7 @@ public class UserModel implements Serializable
         return "login";
     }
     
+    /*
     public String getBookingsForUser()
     {
         User u = userService.checkAuthentification();
@@ -170,6 +179,6 @@ public class UserModel implements Serializable
 
     public void setUserBookings(List<Booking> userBookings) {
         this.userBookings = userBookings;
-    }
+    }*/
     
 }

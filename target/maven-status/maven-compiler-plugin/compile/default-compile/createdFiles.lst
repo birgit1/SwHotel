@@ -12,9 +12,11 @@ com\birgit\swhotel\repo\UserRepo.class
 com\birgit\swhotel\entity\Booking.class
 com\birgit\swhotel\entity\Payment.class
 com\birgit\swhotel\utils\DateUtils.class
+com\birgit\swhotel\service\payment\TestPaymentService.class
 com\birgit\swhotel\entity\RoomType_.class
 com\birgit\swhotel\model\AdminModel.class
 com\birgit\swhotel\model\BookingModel.class
+com\birgit\swhotel\service\payment\PaymentService.class
 com\birgit\swhotel\entity\Hotel.class
 com\birgit\swhotel\entity\User_.class
 com\birgit\swhotel\service\RoomService.class
@@ -24,6 +26,7 @@ javax\faces\convert\AbstractConverterClass.class
 com\birgit\swhotel\utils\LoggerProvider.class
 com\birgit\swhotel\entity\Room_.class
 com\birgit\swhotel\service\BookingService.class
+com\birgit\swhotel\service\payment\AbstractPaymentService.class
 com\birgit\swhotel\entity\Address.class
 javax\faces\convert\Converter.class
 com\birgit\swhotel\entity\Booking_.class

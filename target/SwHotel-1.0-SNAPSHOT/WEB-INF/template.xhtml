@@ -9,6 +9,12 @@
         <!--<h:outputStylesheet name="./css/default.css"/>-->
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        
         <title>SwHotels</title>
     </h:head>
 
@@ -16,19 +22,15 @@
 
         <!-- header -->
         <div id="top">
-            <ui:insert name="top">Welcome at SwHotels<br/></ui:insert>
-            <h:panelGrid columns="4">
-                <h:form>
-                    <h:commandLink value="Admin" action="adminAuthentification"/>
-                    &nbsp;
-                    <h:commandLink value="Hotels" action="hotels"/>
-                    &nbsp;
-                    <h:commandLink value="MyBookings" action="#{bookingModel.checkLogin()}"/>
-                </h:form>
-            </h:panelGrid>
-            <p>
-                _________________________________________________________
-            </p>
+            <ui:insert name="top"><h1>SwHotels</h1></ui:insert>
+            
+
+                <div  class="btn btn-success"> <h:link value="Hotel Management" outcome="adminAuthentification"/></div>
+
+                <div  class="btn btn-danger"> <h:link value="Hotels" outcome="hotels"/></div>
+
+                <div  class="btn btn-warning"> <h:link value="my Bookings" outcome="#{bookingModel.checkLogin()}"/></div>
+                
         </div>
 
         <div id="content" class="center_content">

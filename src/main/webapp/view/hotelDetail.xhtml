@@ -5,15 +5,22 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
         <title>Sw-Hotels</title>
     </h:head>
     <h:body>
          <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
+                 <div class="page-header">
+                 <h2>
                      <h:outputText value="#{hotelModel.currentHotel.name}"/>
-                 </h1>
+                 </h2>
+                 </div>
                  
                 <p>
                     hotel info: <h:outputText value="#{hotelModel.currentHotel.info}"/>
@@ -29,28 +36,15 @@
                     address: <h:outputText value="#{hotelModel.currentHotel.address.address}"/>
                  </p>
                  <h:form>
-                     <!--<div>
-                        <p>when do you arrive?</p>
-                        <h:inputText value="#{hotelModel.dateDay}"/>
-                        <h:inputText value="#{hotelModel.dateMonth}"/>
-                        <h:inputText value="#{hotelModel.dateYear}"/>
-                     </div>
-                     <div>
-                        <p>how many nights do you want to stay?</p>
-                        <h:inputText value="#{hotelModel.nights}"/>
-                     </div>
-                     <div>
-                         <h:commandButton action="#{hotelModel.getAvailableRooms()}" value="get available rooms"/>
-                    </div>-->
+                     
                  
-                    <div>
-                        <p> These rooms are available for your stay </p>
-                     <h:dataTable var="r" value="#{hotelModel.rooms}">
-                       
+                     <h:dataTable class="table" var="r" value="#{hotelModel.rooms}" rendered="#{hotelModel.hotelRoomsAvailable()}">
                         
                         <h:column>
                             <f:facet name="header">Room Type</f:facet>
-                            <h:outputText value="#{r.roomType.roomName}"/>
+                            <div class="btn-warning">
+                                <h:outputText value="#{r.roomType.roomName}"/>
+                            </div>
                         </h:column>
                          <h:column>
                             <f:facet name="header"># beds</f:facet>
@@ -61,12 +55,19 @@
                             <h:outputText value="#{r.roomType.standardPrice}"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{hotelModel.bookRoom(r)}" value="book"/>
+                            <div  class="btn btn-danger">
+                                <h:commandLink action="#{hotelModel.bookRoom(r)}" value="BOOK"/>
+                            </div>
+                            <!--<h:commandButton action="#{hotelModel.bookRoom(r)}" value="book"/>-->
                         </h:column>
+                         
                        
                         </h:dataTable>
-                     </div>
+                     
                  </h:form>
+                    
+                     <h:outputText rendered="#{hotelModel.hotelBookedOut()}" value="hotel booked out"/>
+                         
              </ui:define>
          </ui:composition>
     </h:body>

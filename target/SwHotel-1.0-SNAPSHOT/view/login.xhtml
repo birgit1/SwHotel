@@ -11,20 +11,29 @@
          <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
+                 <div class="page-header"> 
+                    <h2>
                      Login
-                      </h1>
+                      </h2>
+                 </div>
                      
                      <h:form>
                          email: 
-                         <h:inputText value="#{userModel.email}"/>
+                         <h:inputText class="form-control" value="#{userModel.email}"/>
                          password:
-                         <h:inputSecret value="#{userModel.password}"/>
+                         <h:inputSecret class="form-control" value="#{userModel.password}"/>
                           
-                         <h:commandButton action="#{userModel.login()}" value="log in"/>
+                        
+                         <div  class="btn btn-warning">
+                                <h:commandLink action="#{userModel.login()}" value="LOGIN"/>
+                            </div>
                     </h:form>
                  
-                 <h:outputText value="#{userModel.message}"/>
+                 <h:form rendered="#{userModel.isWrongLogin()}">
+                 <div class="alert alert-danger" role="alert">
+                     <h:outputText value="authentication failed; wrong username or password" rendered="#{userModel.isWrongLogin()}"/>
+                 </div>
+                 </h:form> 
                
                  
              </ui:define>

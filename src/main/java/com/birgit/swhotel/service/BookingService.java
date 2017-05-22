@@ -73,14 +73,7 @@ public class BookingService
         return availableRooms; 
     }
     
-    @Transactional
-    //@WebMethode
-    public String makeBookingFromExtern(Room room, Date date, int nights, User user)
-    {
-        // check if user exists if not register
-        // make the booking
-        return "booking id confirmed";
-    }
+    
     
     @Transactional
     public Booking makeBooking(Booking booking)

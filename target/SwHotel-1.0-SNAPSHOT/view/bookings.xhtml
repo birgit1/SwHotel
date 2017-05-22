@@ -11,18 +11,22 @@
         <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
-                     Hello <h:outputText value="username"/>
-                      </h1>
+                 <div class="page-header" align="left">
+                 <h2>
+                     Your bookings
+                      </h2>
+                 </div>
                      
-                 <h3> 
+                 <div align="right"> 
                      <h:form>
-                         your bookings 
-                         <h:commandButton action="#{userModel.logout()}" value="logout"/>
+                         <div  class="btn btn-success">
+                                <h:commandLink action="#{userModel.logout()}" value="logout"/>
+                         </div>
+                         
                      </h:form>
-                 </h3>   
-                 <h:form>
-                     <h:dataTable var="b" value="#{bookingModel.userBookings}">
+                 </div>   
+                 <h:form >
+                     <h:dataTable class="table" var="b" value="#{bookingModel.userBookings}">
                         <h:column>
                             <f:facet name="header">Hotel</f:facet>
                             <h:outputText value="#{b.room.hotel.name}"/>
@@ -45,11 +49,22 @@
                         </h:column>
                      <h:column>
                          <f:facet name="header">Cancel Booking</f:facet>
-                         <h:commandButton action="#{bookingModel.deleteBooking(b)}" value="X"/>
-                 </h:column>
+                         <div  class="btn btn-warning">
+                                <h:commandLink action="#{bookingModel.deleteBooking(b)}" value="x"/>
+                         </div>
+                  </h:column>
                     </h:dataTable>
                      </h:form>
-                 
+                 <h:form rendered="#{bookingModel.userHasNoBookings()}">
+                     <h1>
+                         <h:outputText value="you have no bookings"/>
+                     </h1>
+                      <p></p>
+                      <div  class="btn btn-danger">
+                                <h:commandLink action="hotels" value="BOOK NOW"/>
+                         </div>
+                      </h:form>
+                   
                  
              </ui:define>
          </ui:composition>

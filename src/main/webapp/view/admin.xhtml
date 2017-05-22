@@ -11,30 +11,50 @@
         <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h1>
-                     Hotel Management
-                 </h1>
                  
-        <h1> Hotel ***************************************</h1>
+           
+        <div class="panel panel-info">  
+            <div class="panel-header">
+                <div class="page-header"> 
+                    <h2>
+                        Hotel
+                    </h2>
+                </div>
+            </div>
+            <div class="panel-body">
         <h:form>
+            <div class="col-sm-2">
             Name
-            <h:inputText value="#{adminModel.hotelName}"/>
+            <h:inputText class="form-control" value="#{adminModel.hotelName}"/>
+            </div>
+            <div class="col-sm-2">
             city
-            <h:inputText value="#{adminModel.city}"/>
+            <h:inputText class="form-control" value="#{adminModel.city}"/>
+            </div>
+            <div class="col-sm-2">
             country
-            <h:inputText value="#{adminModel.country}"/>
+            <h:inputText class="form-control" value="#{adminModel.country}"/>
+            </div>
+            <div class="col-sm-2">
             address
-            <h:inputText value="#{adminModel.hotelAddress}"/>
+            <h:inputText class="form-control" value="#{adminModel.hotelAddress}"/>
+            </div>
+            <div class="col-sm-2">
             price factor
-            <h:inputText value="#{adminModel.priceFactor}"/>
+            <h:inputText class="form-control" value="#{adminModel.priceFactor}"/>
+            </div>
+            <div class="col-sm-4">
             info
-            <h:inputTextarea value="#{adminModel.hotelInfo}"/>
-            <h:commandButton action="#{adminModel.addHotel()}" value="+"/>
-        </h:form>
+            <h:inputTextarea class="form-control" value="#{adminModel.hotelInfo}"/>
+            </div>
+             <div  class="btn btn-danger">
+                                <h:commandLink action="#{adminModel.addHotel()}" value="+"/>
+                         </div>
+               </h:form>
         
         <h:form>
             
-             <h:dataTable var="h" value="#{adminModel.hotelList}">
+             <h:dataTable class="table" var="h" value="#{adminModel.hotelList}">
                         <h:column>
                             <f:facet name="header">Hotel Name</f:facet>
                             <h:outputText value="#{h.name}"/>
@@ -48,26 +68,46 @@
                             <h:outputText value="#{h.address.country}"/>
                         </h:column>
                  <h:column>
-                      <h:commandButton action="#{adminModel.deleteHotel(h)}" value="X"/>
+                      <div  class="btn btn-danger">
+                                <h:commandLink action="#{adminModel.deleteHotel(h)}" value="X"/>
+                         </div>
                  </h:column>
                         
                     </h:dataTable>
         </h:form>
+            </div>
+        </div>
+                
+        <!-- **************************************************-->
+       <div class="panel panel-warning">  
+            <div class="panel-header">       
         
-        <h1> RoomType **********************************************</h1>
+            <h2>
+            RoomType
+            </h2>
+            </div>
+           <div class="panel-body">
         <h:form>
+            <div class="col-sm-2">
             room type name
-            <h:inputText value="#{adminModel.roomTypeName}"/>
+            <h:inputText class="form-control" value="#{adminModel.roomTypeName}"/>
+            </div>
+            <div class="col-sm-2">
             beds
-            <h:inputText value="#{adminModel.beds}"/>
+            <h:inputText class="form-control" value="#{adminModel.beds}"/>
+            </div>
+            <div class="col-sm-2">
             price
-            <h:inputText value="#{adminModel.standardPrice}"/>
-            <h:commandButton action="#{adminModel.addRoomType()}" value="+"/>
+            <h:inputText class="form-control" value="#{adminModel.standardPrice}"/>
+            </div>
+             <div  class="btn btn-warning">
+                                <h:commandLink action="#{adminModel.addRoomType()}" value="+"/>
+                         </div>
         </h:form>
         
         <h:form>
         
-             <h:dataTable var="rt" value="#{adminModel.roomTypeList}">
+             <h:dataTable class="table" var="rt" value="#{adminModel.roomTypeList}">
                         <h:column>
                             <f:facet name="header">Room Name</f:facet>
                             <h:outputText value="#{rt.roomName}"/>
@@ -82,12 +122,27 @@
                         </h:column>
                         
                         <h:column>
-                            <h:commandButton action="#{adminModel.deleteRoomType(rt)}" value="X"/>
+                             <div  class="btn btn-warning">
+                                <h:commandLink action="#{adminModel.deleteRoomType(rt)}" value="X"/>
+                         </div>
                         </h:column>
                     </h:dataTable>
         </h:form>
+           </div>
+       </div>
         
-        <h1> Room *********************************************************</h1>
+        
+        <!-- ********************************************************************-->  
+        <div class="panel panel-danger">
+        <div class="panel-header">
+        <div class="page-header"> 
+            <h2>
+            Room 
+            </h2>
+        </div>
+        </div>
+              
+        <div class="panel-body">
         <h:form>
             roomType
             <h:selectOneMenu value="#{adminModel.currentRoomTypeRoomSelection}"
@@ -104,12 +159,14 @@
                                     itemLabel="#{h.name} #{h.address.city}" />  
             </h:selectOneMenu>
           
-            <h:commandButton action="#{adminModel.addRoom()}" value="+"/>
+             <div  class="btn btn-success">
+                                <h:commandLink action="#{adminModel.addRoom()}" value="+"/>
+                         </div>
         </h:form>
         
         <h:form>
         
-             <h:dataTable var="r" value="#{adminModel.roomList}">
+             <h:dataTable class="table" var="r" value="#{adminModel.roomList}">
                         
                         <h:column>
                             <f:facet name="header">Hotel</f:facet>
@@ -128,11 +185,15 @@
                              <h:outputText value="#{r.price}"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{adminModel.deleteRoom(r)}" value="X"/>
+                             <div  class="btn btn-success">
+                                <h:commandLink action="#{adminModel.deleteRoom(r)}" value="X"/>
+                         </div>
                         </h:column>
    
                     </h:dataTable>
         </h:form>
+        </div>
+             </div>
                  
              </ui:define>
          </ui:composition>

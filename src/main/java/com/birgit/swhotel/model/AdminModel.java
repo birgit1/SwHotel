@@ -134,6 +134,7 @@ public class AdminModel
     private Hotel currentHotelRoomSelection = null;
     private RoomType currentRoomTypeRoomSelection = null;
     
+    
     public void addRoom()
     {
         Room room = new Room(currentHotelRoomSelection, currentRoomTypeRoomSelection);

@@ -4,14 +4,15 @@ import com.birgit.swhotel.utils.DateUtils;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Booking extends SingleIdEntity {
 
-    @ManyToOne
+    @ManyToOne//(fetch=FetchType.EAGER)
     private User user;
-    @ManyToOne
+    @ManyToOne//(fetch=FetchType.EAGER)
     private Room room;
 
     private int nights;
