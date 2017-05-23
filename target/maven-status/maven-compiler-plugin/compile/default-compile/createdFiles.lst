@@ -8,9 +8,9 @@ com\birgit\swhotel\entity\User.class
 com\birgit\swhotel\entity\Address_.class
 com\birgit\swhotel\repo\HotelRepo.class
 com\birgit\swhotel\entity\Hotel_.class
+com\birgit\swhotel\service\BookingWebservice.class
 com\birgit\swhotel\repo\UserRepo.class
 com\birgit\swhotel\entity\Booking.class
-com\birgit\swhotel\entity\Payment.class
 com\birgit\swhotel\utils\DateUtils.class
 com\birgit\swhotel\service\payment\TestPaymentService.class
 com\birgit\swhotel\entity\RoomType_.class
@@ -20,7 +20,6 @@ com\birgit\swhotel\service\payment\PaymentService.class
 com\birgit\swhotel\entity\Hotel.class
 com\birgit\swhotel\entity\User_.class
 com\birgit\swhotel\service\RoomService.class
-com\birgit\swhotel\entity\Payment_.class
 javax\faces\convert\HotelConverter.class
 javax\faces\convert\AbstractConverterClass.class
 com\birgit\swhotel\utils\LoggerProvider.class

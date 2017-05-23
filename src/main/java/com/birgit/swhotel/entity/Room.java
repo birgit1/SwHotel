@@ -8,10 +8,10 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Room extends SingleIdEntity
 {
-    @ManyToOne//(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     private RoomType roomType;
     
-    @ManyToOne//(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     private Hotel hotel;
     private double price;
     

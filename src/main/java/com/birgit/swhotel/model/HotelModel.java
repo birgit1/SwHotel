@@ -81,6 +81,7 @@ public class HotelModel implements Serializable
     {
         currentHotel = hotel;
         currentBooking = new Booking();
+        System.out.println("SHOW HOTEL DETAL");
         //loadRooms();
         getAvailableRooms();
         return "hotelDetail";

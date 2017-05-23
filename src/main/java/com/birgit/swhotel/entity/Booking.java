@@ -10,9 +10,9 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Booking extends SingleIdEntity {
 
-    @ManyToOne//(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     private User user;
-    @ManyToOne//(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     private Room room;
 
     private int nights;

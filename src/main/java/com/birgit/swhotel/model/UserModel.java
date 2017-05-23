@@ -1,22 +1,17 @@
 
 package com.birgit.swhotel.model;
 
-import com.birgit.swhotel.entity.Booking;
 import com.birgit.swhotel.entity.User;
 import com.birgit.swhotel.repo.UserRepo;
 import com.birgit.swhotel.service.BookingService;
 import com.birgit.swhotel.service.UserService;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class UserModel implements Serializable
 {
     
@@ -42,6 +37,7 @@ public class UserModel implements Serializable
             user.setEmail(email);
             user.setName(name);
             user.setPassword(password);
+           
             User u = userService.registerUser(user);
         }
         return "bookingDetail";

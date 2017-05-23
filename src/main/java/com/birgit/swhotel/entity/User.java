@@ -23,10 +23,9 @@ public class User extends SingleIdEntity implements Serializable
     private String password;
     private String name;
     
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
     private List<Booking> bookings;
     
-    private Payment payment;
 
     public User ()
     { 
