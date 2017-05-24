@@ -7,30 +7,35 @@ import com.birgit.swhotel.entity.RoomType;
 import com.birgit.swhotel.repo.HotelRepo;
 import com.birgit.swhotel.repo.RoomRepo;
 import com.birgit.swhotel.repo.RoomTypeRepo;
+import com.birgit.swhotel.service.AdminService;
+import com.birgit.swhotel.service.RoomService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 @Named
 @RequestScoped
 public class AdminModel 
 {
+    /*@Inject
+    private HotelRepo hotelRepo;
     @Inject
-    private HotelRepo hotelService;
+    private RoomRepo roomRepo;
     @Inject
-    private RoomRepo roomService;
+    private RoomTypeRepo roomTypeRepo;*/
     @Inject
-    private RoomTypeRepo roomTypeService;
+    private AdminService adminService;
     
     @PostConstruct
     public void init() 
     {
-        this.hotelList = hotelService.getAll();
-        this.roomTypeList = roomTypeService.getAll();
-        this.roomList = roomService.getAll();
+        this.hotelList = adminService.getHotels();
+        this.roomTypeList = adminService.getRoomTypes();
+        this.roomList = adminService.getRooms();
         if(this.hotelList == null)
             this.hotelList = new ArrayList<>();
         if(this.roomTypeList == null)
@@ -38,6 +43,8 @@ public class AdminModel
         if(this.roomList == null)
             this.roomList = new ArrayList<>();
     }
+    
+    private String infoMessage = null;
     
     // authentification
     private String adminPassword;
@@ -72,15 +79,12 @@ public class AdminModel
         hotel.setPriceFactor(priceFactor);
         hotel.setInfo(hotelInfo);
         
-        Hotel addedHotel = (Hotel) hotelService.persist(hotel);
+        Hotel addedHotel = adminService.addHotel(hotel);
+        if(addedHotel == null)         
+            infoMessage = "hotel could not be added; invalid values";
+        else    
+            hotelList.add(addedHotel);
         
-        if(addedHotel != null)
-        {
-        hotelList.add(addedHotel);
-        System.out.println("hotel added "+addedHotel.getId());
-        }
-        else
-        System.out.println("hotel null");
         hotelName = null;
         city = null;
         country = null;
@@ -91,10 +95,14 @@ public class AdminModel
     
     public void deleteHotel(Hotel hotel)
     {
-        System.out.println("delete hotel "+hotel.getName());
-        hotelService.delete(hotel);
+        try{
+        adminService.deleteHotel(hotel);
         hotelList.remove(hotel);
-        System.out.println("hotel "+hotel.getId()+" deleted");
+        }
+        catch(Exception e)
+        {
+            infoMessage = "hotel could not be deleted; hotel rooms have to be deleted first";
+        }
     }
     
    
@@ -111,9 +119,11 @@ public class AdminModel
         roomType.setRoomName(roomTypeName);
         roomType.setBeds(beds);
         roomType.setStandardPrice(standardPrice);
-        roomTypeService.persist(roomType);
-        roomTypeList.add(roomType);
-        System.out.println("roomType added "+roomType.getId());
+        RoomType rt = adminService.addRoomType(roomType);
+        if(rt == null)
+            infoMessage="invalid values; room type could not be added";
+        else
+            roomTypeList.add(roomType);
         roomTypeName = null;
         beds = 0;
         standardPrice = 0;
@@ -121,8 +131,14 @@ public class AdminModel
     
     public void deleteRoomType(RoomType roomType)
     {
-        roomTypeService.delete(roomType);
+        try{
+        adminService.deleteRoomType(roomType);
         roomTypeList.remove(roomType);
+        }
+        catch(Exception e)
+        {
+            infoMessage = "roomType could not be deleted; rooms of this type have to be deleted first";
+        }
     }
     
     
@@ -138,18 +154,24 @@ public class AdminModel
     public void addRoom()
     {
         Room room = new Room(currentHotelRoomSelection, currentRoomTypeRoomSelection);
-       
-        roomService.persist(room);
+        adminService.addRoom(room);
         roomList.add(room);
-        System.out.println("room added "+room.getId());
         currentHotelRoomSelection = null;
         currentRoomTypeRoomSelection = null;
     }
     
+    
     public void deleteRoom(Room room)
     {
-        roomService.delete(room);
+        try{
+        //roomRepo.delete(room);
+        adminService.deleteRoom(room);
         roomList.remove(room);
+        }
+        catch(Exception e)
+        {
+            infoMessage = "room could not be deleted; bookings for room have to be deleted first";
+        }
     }
     
     
@@ -304,6 +326,14 @@ public class AdminModel
 
     public void setWrongPasswordMsg(String wrongPasswordMsg) {
         this.wrongPasswordMsg = wrongPasswordMsg;
+    }
+
+    public String getInfoMessage() {
+        return infoMessage;
+    }
+
+    public void setInfoMessage(String infoMessage) {
+        this.infoMessage = infoMessage;
     }
     
     

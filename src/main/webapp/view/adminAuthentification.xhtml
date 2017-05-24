@@ -1,21 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        
+        <ui:composition template="../WEB-INF/template.xhtml">
+
+             <ui:define name="content">
         <div align="center">
             <h:form>
                 <p> enter password </p>
-                <h:inputSecret value="#{adminModel.adminPassword}"/>
+                <p> password: admin</p>
+                <h:inputSecret class="form-control" value="#{adminModel.adminPassword}"/>
 
-                <h:commandButton value="submit" action="#{adminModel.authenticateAdmin()}"/>
+                <div  class="btn btn-danger">
+                                <h:commandLink action="#{adminModel.authenticateAdmin()}" value="submit"/>
+                         </div>
                 <h:outputText value ="#{adminModel.wrongPasswordMsg} "/>
             </h:form>
         </div>
+                 </ui:define>  
+        </ui:composition>
+                 
     </h:body>
 </html>
 

@@ -7,7 +7,7 @@
     
     <alternatives>
         <class>
-            com.birgit.swhotel.service.payment.TestPaymentService
+            com.birgit.swhotel.service.payment.PaymentService
         </class>
       </alternatives>
     <!-- alle klassen mit request..-scope iniziierbar-->

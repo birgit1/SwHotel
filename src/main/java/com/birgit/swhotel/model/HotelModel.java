@@ -147,6 +147,8 @@ public class HotelModel implements Serializable
     }
     
     // page 3: bookingDetail: confirm booking
+    private String payEmail;
+    private String payPassword;
     
     @Transactional
     public String makeBooking()
@@ -155,7 +157,11 @@ public class HotelModel implements Serializable
         //User user = userService.checkAuthentification();
         //System.out.println(user.toString());
         //currentBooking.setUser(user);
-        Booking booking = bookingService.makeBooking(currentBooking);
+        Booking booking = bookingService.makeBooking(currentBooking, payEmail, payPassword);
+        
+        payPassword=null;
+        payEmail=null;
+        
         if(booking == null)
             return "bookingFail";
         System.out.println("2 DATE: "+booking.getArrival());
@@ -255,6 +261,22 @@ public class HotelModel implements Serializable
 
     public void setCurrentBooking(Booking currentBooking) {
         this.currentBooking = currentBooking;
+    }
+
+    public String getPayEmail() {
+        return payEmail;
+    }
+
+    public void setPayEmail(String payEmail) {
+        this.payEmail = payEmail;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
     }
     
     

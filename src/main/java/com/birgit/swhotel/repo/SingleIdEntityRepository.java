@@ -50,9 +50,15 @@ public abstract class SingleIdEntityRepository<E extends SingleIdEntity>
     @Transactional
     public E delete(E entity)
     {
+        try{
         entity = merge(entity);
         this.em.remove(entity);
         return entity;
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
     }
     
     public E getById(long id) 

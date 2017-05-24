@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.birgit.swhotel.service;
 
 import com.birgit.swhotel.entity.Booking;
@@ -14,12 +10,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.WebMethod;
 import javax.transaction.Transactional;
 
-@SessionScoped
-public class BookingWebservice implements Serializable 
+@WebService
+@RequestScoped
+public class BookingWebservice  
 {
     @Inject
     private HotelRepo hotelRepo;
@@ -27,10 +28,14 @@ public class BookingWebservice implements Serializable
     @Inject
     private BookingService bookingService;
     
+    @Inject
+    private UserService userService;
+    
+    @WebMethod
     @Transactional
     public List<Room> getHotelRooms(String str, Date date, int nights)
     {
-        List<Hotel> hotels = hotelRepo.findHotelByString(str);
+        List<Hotel> hotels = hotelRepo.getAll();
         if(hotels == null)
             return null;
         this.arrivalDate = date;
@@ -48,19 +53,58 @@ public class BookingWebservice implements Serializable
         return rooms;
     }
     
+    @WebMethod
     @Transactional
-    public long bookRoom(Room room, User user)
+    public Booking bookRoom(Booking booking, User user)
     {
+        System.out.println("book room");
+        User u = userService.registerUser(user);
+        if(u == null)
+        {
+            System.out.println("login fail");
+            return null;
+        }
+        return booking;
+    }
+    
+    /*@WebMethod
+    public void bookRoom( Room room, User user)
+    {
+        System.out.println("book room");
+        User u = userService.registerUser(user);
+        if(u == null)
+        {
+            System.out.println("login fail");
+            return;// null;
+        }
+        /*else
+        {
+        
         Booking booking = new Booking();
         booking.setRoom(room);
-        booking.setUser(user);
+        booking.setUser(u);
         booking.setArrival(arrivalDate);
         booking.setNights(nights);
-        Booking b = bookingService.makeBooking(booking);
+        System.out.println(booking.toString());
+        
+        try{
+        booking = bookingService.makeBooking(booking);
+        }
+        catch(Exception e)
+        {
+            System.out.println("booking could not be performed");
+            return ;//null;
+        }
+        finally{
         arrivalDate=null;
         nights=0;
-        return b.getId();
-    }
+        userService.logout();
+        }
+        System.out.println("finished remote booking");
+        //return booking;
+        }*
+        
+    }*/
     
     private Date arrivalDate;
     private int nights;

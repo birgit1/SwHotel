@@ -26,15 +26,9 @@
                          <div  class="btn btn-warning">
                                 <h:commandLink action="#{userModel.loginBook()}" value="SIGN IN"/>
                             </div>
-                         <!--<h:commandButton action="#{userModel.loginBook()}" value="log in"/>
-                         -->
+                         
                     </h:form>
-                 
-                 <h:form rendered="#{userModel.isWrongLogin()}">
-                 <div class="alert alert-danger" role="alert">
-                     <h:outputText value="authentication failed; wrong username or password" />
-                 </div>
-                 </h:form>    
+                  
                 
                  <div class="page-header"> 
                     <h2>
@@ -55,6 +49,10 @@
                          </div>
                          
                      </h:form>
+                 
+                 <div class="alert alert-danger" role="alert">
+                     <h:outputText value="#{userModel.message}" />
+                 </div>
                  
              </ui:define>
          </ui:composition>

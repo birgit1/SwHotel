@@ -41,4 +41,5 @@ public class RoomRepo extends SingleIdEntityRepository implements Serializable
     }
     
     
+    
 }

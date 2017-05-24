@@ -27,13 +27,13 @@ public class BookingService
     private Logger logger;
     
     @Inject
-     RoomRepo roomRepo;
+    private RoomRepo roomRepo;
     
     @Inject
-     BookingRepo bookingRepo;
+    private BookingRepo bookingRepo;
     
     @Inject
-     UserRepo userRepo;
+    private UserRepo userRepo;
     
     @Inject 
     private UserService userService;
@@ -50,20 +50,17 @@ public class BookingService
         // get all rooms of hotel
         
         try{
-            
-        hotelRooms = roomRepo.getHotelRooms(hotel);
-        logger.info("# hotel rooms found: "+hotelRooms.size());
+            hotelRooms = roomRepo.getHotelRooms(hotel);
         }
         catch(Exception e)
         {
-            logger.info("no rooms in hotel");
             return null;
         }
          List<Room> availableRooms;   
         try{
         // get all bookings for all rooms in hotel and return if they are available at the time
         availableRooms = bookingRepo.getAvailableRooms(hotelRooms, date, nights);
-        logger.info("# available rooms found: "+availableRooms.size());
+        logger.info("available rooms in hotel found: "+availableRooms.size());
         }
         catch(Exception e)
         {
@@ -76,44 +73,80 @@ public class BookingService
     
     
     @Transactional
-    public Booking makeBooking(Booking booking)
+    public Booking makeBooking(Booking booking, String payEmail, String payPassword)
     {
-        User user;
-        try{
-         user = userService.checkAuthentification();
+        if(!checkDate(booking))
+        {
+            logger.info("booking failed: incorrect dates");
+            return null;
+        }
+        
+        User user = checkUser();
+        if(user == null)
+        {
+            logger.info("booking failed: incorrect user");
+            return null;
+        }
         booking.setUser(user);
-        System.out.println(user.toString());
+        
+        if(!checkPayment(booking, payEmail, payPassword))
+        {
+            logger.info("payment transaction fail");
+            return null;
+        }
+        
+        try{
+            Booking addedBooking = (Booking) bookingRepo.persist(booking);
+
+            userRepo.addBookingToUser(user, addedBooking);
+            logger.info("booking successful: ");
+            return booking;
         }
         catch(Exception e)
         {
-            e.printStackTrace();
-            System.out.println("user authentication fail");
+            logger.info("booking fail");
             return null;
         }
+    }
+    
+    @Transactional
+    private boolean checkPayment(Booking booking, String payEmail, String payPassword)
+    {
         try{
-            if(!paymentService.pay(booking.getTotalPrice()))
-                return null;
-            
+            boolean paymentSuccessful = paymentService.pay(booking.getTotalPrice(), payEmail, payPassword);
+                
+            return paymentSuccessful;
         }
         catch(Exception ex)
         {
-            return null;
+            logger.info("payment transaction failed");
+            return false;
         }
-        try{
-        System.out.println("make booking");
-        Booking addedBooking = (Booking) bookingRepo.persist(booking);
+    }
+    
+    @Transactional
+    private boolean checkDate(Booking booking)
+    {
+        Date now = new Date();
         
-        userRepo.addBookingToUser(user, addedBooking);
-        logger.info("booking successful: ");
-        return booking;
-        }
-        catch(Exception e)
+        if(booking.getArrival().before(now) || booking.getNights() <= 0)
         {
-            e.printStackTrace();
-            System.out.println("booking fail");
-            return null;
+           return false;
         }
-        
+        return true;
+    }
+    
+    @Transactional
+    private User checkUser()
+    {
+        User user = null;
+        try{
+         user = userService.checkAuthentification();
+         
+        }
+        catch(Exception ex)
+        {}
+        return user;
     }
     
     @Transactional

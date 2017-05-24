@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.paydudekucko.kucko.othr.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TransactionServiceService" targetNamespace="http://service.paydudekucko.kucko.othr.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.paydudekucko.kucko.othr.com/" elementFormDefault="unqualified" targetNamespace="http://service.paydudekucko.kucko.othr.com/" version="1.0">
+
+  <xs:element name="createExternalTransaction" type="tns:createExternalTransaction"/>
+
+  <xs:element name="createExternalTransactionResponse" type="tns:createExternalTransactionResponse"/>
+
+  <xs:element name="createInternalTransaction" type="tns:createInternalTransaction"/>
+
+  <xs:element name="createInternalTransactionResponse" type="tns:createInternalTransactionResponse"/>
+
+  <xs:element name="getExternalTransactions" type="tns:getExternalTransactions"/>
+
+  <xs:element name="getExternalTransactionsResponse" type="tns:getExternalTransactionsResponse"/>
+
+  <xs:element name="getInternalTransactions" type="tns:getInternalTransactions"/>
+
+  <xs:element name="getInternalTransactionsResponse" type="tns:getInternalTransactionsResponse"/>
+
+  <xs:element name="receiveExternalTransaction" type="tns:receiveExternalTransaction"/>
+
+  <xs:element name="receiveExternalTransactionResponse" type="tns:receiveExternalTransactionResponse"/>
+
+  <xs:complexType name="createInternalTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:long"/>
+      <xs:element name="arg2" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createInternalTransactionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:internalTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="internalTransaction">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element name="amount" type="xs:long"/>
+          <xs:element minOccurs="0" name="receiver" type="tns:paydudeAccount"/>
+          <xs:element minOccurs="0" name="sender" type="tns:paydudeAccount"/>
+          <xs:element minOccurs="0" name="transactionDate" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="singleIdEntity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paydudeAccount">
+    <xs:sequence>
+      <xs:element name="balance" type="xs:long"/>
+      <xs:element minOccurs="0" name="bankAccount" type="tns:bankAccount"/>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="owner" type="tns:customer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bankAccount">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="IBAN" type="xs:string"/>
+          <xs:element minOccurs="0" name="owner" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="customer">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="account" type="tns:paydudeAccount"/>
+          <xs:element minOccurs="0" name="address" type="tns:address"/>
+          <xs:element minOccurs="0" name="email" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="externalTransactions" nillable="true" type="tns:externalTransaction"/>
+          <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="internalTransactions" nillable="true" type="tns:internalTransaction"/>
+          <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="city" type="xs:string"/>
+      <xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="street" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="externalTransaction">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element name="amount" type="xs:long"/>
+          <xs:element minOccurs="0" name="receiverIBAN" type="xs:string"/>
+          <xs:element minOccurs="0" name="sender" type="tns:paydudeAccount"/>
+          <xs:element minOccurs="0" name="transactionDate" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="receiveExternalTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:long"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="receiveExternalTransactionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getExternalTransactions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getExternalTransactionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:externalTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createExternalTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:long"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createExternalTransactionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:externalTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getInternalTransactions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getInternalTransactionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:internalTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createInternalTransaction">
+    <wsdl:part element="tns:createInternalTransaction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExternalTransactions">
+    <wsdl:part element="tns:getExternalTransactions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInternalTransactionsResponse">
+    <wsdl:part element="tns:getInternalTransactionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createExternalTransactionResponse">
+    <wsdl:part element="tns:createExternalTransactionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="receiveExternalTransaction">
+    <wsdl:part element="tns:receiveExternalTransaction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="receiveExternalTransactionResponse">
+    <wsdl:part element="tns:receiveExternalTransactionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createInternalTransactionResponse">
+    <wsdl:part element="tns:createInternalTransactionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createExternalTransaction">
+    <wsdl:part element="tns:createExternalTransaction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInternalTransactions">
+    <wsdl:part element="tns:getInternalTransactions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExternalTransactionsResponse">
+    <wsdl:part element="tns:getExternalTransactionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="TransactionService">
+    <wsdl:operation name="createInternalTransaction">
+      <wsdl:input message="tns:createInternalTransaction" name="createInternalTransaction">
+    </wsdl:input>
+      <wsdl:output message="tns:createInternalTransactionResponse" name="createInternalTransactionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="receiveExternalTransaction">
+      <wsdl:input message="tns:receiveExternalTransaction" name="receiveExternalTransaction">
+    </wsdl:input>
+      <wsdl:output message="tns:receiveExternalTransactionResponse" name="receiveExternalTransactionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExternalTransactions">
+      <wsdl:input message="tns:getExternalTransactions" name="getExternalTransactions">
+    </wsdl:input>
+      <wsdl:output message="tns:getExternalTransactionsResponse" name="getExternalTransactionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createExternalTransaction">
+      <wsdl:input message="tns:createExternalTransaction" name="createExternalTransaction">
+    </wsdl:input>
+      <wsdl:output message="tns:createExternalTransactionResponse" name="createExternalTransactionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInternalTransactions">
+      <wsdl:input message="tns:getInternalTransactions" name="getInternalTransactions">
+    </wsdl:input>
+      <wsdl:output message="tns:getInternalTransactionsResponse" name="getInternalTransactionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TransactionServiceServiceSoapBinding" type="tns:TransactionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createInternalTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createInternalTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createInternalTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="receiveExternalTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="receiveExternalTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="receiveExternalTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExternalTransactions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getExternalTransactions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getExternalTransactionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createExternalTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createExternalTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createExternalTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInternalTransactions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInternalTransactions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInternalTransactionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TransactionServiceService">
+    <wsdl:port binding="tns:TransactionServiceServiceSoapBinding" name="TransactionServicePort">
+      <soap:address location="http://im-lamport:8080/PaydudeKucko/TransactionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -10,25 +10,43 @@
         <ui:composition template="../WEB-INF/template.xhtml">
 
              <ui:define name="content">
-                 <h3>
-                     Book your stay
-                 </h3>
+                 <div class="page-header">
+                    <h2>
+                        Booking details:
+                    </h2>
+                 </div>
+                 <div class="panel panel-warning">
+                     
+                     <div class="panel-header">
+                    <p> hotel: <h:outputText value="#{hotelModel.currentHotel.name}"/> </p>
+                    <p> room: <h:outputText value="#{hotelModel.currentBooking.room.roomType.roomName}"/></p>
+                    <p> totalPrice: <h:outputText value="#{hotelModel.currentBooking.totalPrice}"/></p>
+                    <p> arrival Date: <h:outputText value="#{hotelModel.currentBooking.arrivalStr}"/></p>
+                    <p> nights: <h:outputText value="#{hotelModel.currentBooking.nights}"/></p>
+                     </div>
+                 
+                 </div>
+                 
+                 <h:form>
                  <div>
-                    <p>You are booking</p>
-                    <p> at <h:outputText value="#{hotelModel.currentBooking.room}"/> hotel</p>
-                    <p> room <h:outputText value="#{hotelModel.currentHotel.name}"/></p>
+                     <div class="page-header">
+                         <h5>pay with your paydude account</h5>
+                     </div>
+                     paydude email:
+                     <h:inputText value="#{hotelModel.payEmail}" class="form-control"/>
+                     paydude password:
+                     <h:inputSecret value="#{hotelModel.payPassword}" class="form-control"/>
+                     <p> or use email: test@user.com and password 123</p>
                  </div>
                      
-                 <div>
-                     <p> confirm your booking </p>
-                     <h:form>
+                 
                          
                          <div  class="btn btn-danger">
                                 <h:commandLink action="#{hotelModel.makeBooking()}" value="BOOK"/>
                          </div>
                          
                     </h:form>
-                 </div>
+                 
                  
                 
                  

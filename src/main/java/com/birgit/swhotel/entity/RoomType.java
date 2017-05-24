@@ -9,7 +9,6 @@ public class RoomType extends SingleIdEntity
     private int beds;
     private String roomName;
     private double standardPrice;
-    private boolean bathroom;
     
     
     public RoomType()
@@ -39,14 +38,6 @@ public class RoomType extends SingleIdEntity
 
     public void setStandardPrice(double standardPrice) {
         this.standardPrice = standardPrice;
-    }
-
-    public boolean isBathroom() {
-        return bathroom;
-    }
-
-    public void setBathroom(boolean bathroom) {
-        this.bathroom = bathroom;
     }
     
 }

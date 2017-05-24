@@ -16,7 +16,7 @@ public class TestPaymentService implements AbstractPaymentService, Serializable
     private Logger logger;
 
     @Override
-    public boolean pay(double amount) 
+    public boolean pay(double amount, String paymentEmail, String paymentPassword) 
     {
         logger.info("testpaymentService");
         return true;

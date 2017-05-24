@@ -27,7 +27,7 @@ public class UserModel implements Serializable
     private User loggedInUser = null;
     private String email, password, name;
     private String message = null;
-    private boolean wrongLogin = false;
+    //private boolean wrongLogin = false;
     
     public String registerUser()
     {
@@ -64,12 +64,12 @@ public class UserModel implements Serializable
         if(loggedInUser == null)
         {
             message = "authentification fail; wrong password or email";
-            wrongLogin = true;
+            //wrongLogin = true;
             return null;
         }
         
             message = "authentificated";
-            wrongLogin = false;
+            //wrongLogin = false;
         email = null;
         password = null;
         name = null;
@@ -82,10 +82,10 @@ public class UserModel implements Serializable
         return "hotels";
     }
     
-    public boolean isWrongLogin()
+    /*public boolean isWrongLogin()
     {
         return wrongLogin;
-    }
+    }*/
     
     // getter & setter *********************************************
 

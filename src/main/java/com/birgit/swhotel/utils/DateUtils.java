@@ -30,6 +30,7 @@ public class DateUtils
         return date;
     }
     
+    
     public static List<Date> getTimeList(Date arrival, int nights)
     {
         Calendar calendar = new GregorianCalendar();

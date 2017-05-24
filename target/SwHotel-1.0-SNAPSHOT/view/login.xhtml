@@ -29,11 +29,9 @@
                             </div>
                     </h:form>
                  
-                 <h:form rendered="#{userModel.isWrongLogin()}">
                  <div class="alert alert-danger" role="alert">
-                     <h:outputText value="authentication failed; wrong username or password" rendered="#{userModel.isWrongLogin()}"/>
+                     <h:outputText value="#{userModel.message}" />
                  </div>
-                 </h:form> 
                
                  
              </ui:define>

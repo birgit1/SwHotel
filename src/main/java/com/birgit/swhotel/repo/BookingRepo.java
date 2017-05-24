@@ -52,7 +52,6 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
                 }
             }
         }
-        logger.info("bookings found for room: "+bookings.size());
         return bookings;   
     }
     
@@ -97,7 +96,6 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
             query.setParameter("parameter1", user.getId());
   
             List<Booking> bookings = query.getResultList();
-            System.out.println("#bookings: "+bookings.size());
             return bookings;
     }
     
@@ -118,15 +116,13 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
     {
         if(list == null)
             return null;
-        logger.info("check double items");
         List<Room> list2 = new ArrayList<>();
         HashSet<String> lookup = new HashSet<>();
         for (Room item : list) 
         {
             if (lookup.add(item.getRoomType().getRoomName())) 
             {
-                logger.info("add room: "+item.getRoomType().getRoomName());
-                list2.add(item);
+                 list2.add(item);
             }
         }
         return list2;
