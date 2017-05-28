@@ -34,19 +34,13 @@ public class UserService implements Serializable
     
     @Transactional
     public User registerUser(User user)
-    {
-        logger.info("register user");
-        //if(userRepo.getUserByEmail(user.getEmail()) == null)
-        /*if(userRepo.getUserByEmail(user.getEmail()) != null)
-        {
-            login(user.getEmail(), user.getPassword());
-        }*/
+    { 
         if(user.getName()!= null && user.getEmail() != null && user.getPassword()!=null)
         if(!user.getName().equals("") && !user.getEmail().equals(""))
         {
             User u = (User) userRepo.persist(user);
             loggedInUser = u;
-            logger.info("user registered succesfully "+u.getId());
+            logger.info("user registration succesfully "+u.getId());
             return u;
         }
         

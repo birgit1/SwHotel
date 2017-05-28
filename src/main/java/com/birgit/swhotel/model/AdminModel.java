@@ -4,29 +4,18 @@ package com.birgit.swhotel.model;
 import com.birgit.swhotel.entity.Hotel;
 import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.RoomType;
-import com.birgit.swhotel.repo.HotelRepo;
-import com.birgit.swhotel.repo.RoomRepo;
-import com.birgit.swhotel.repo.RoomTypeRepo;
 import com.birgit.swhotel.service.AdminService;
-import com.birgit.swhotel.service.RoomService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.transaction.Transactional;
 
 @Named
 @RequestScoped
 public class AdminModel 
 {
-    /*@Inject
-    private HotelRepo hotelRepo;
-    @Inject
-    private RoomRepo roomRepo;
-    @Inject
-    private RoomTypeRepo roomTypeRepo;*/
     @Inject
     private AdminService adminService;
     
@@ -164,7 +153,6 @@ public class AdminModel
     public void deleteRoom(Room room)
     {
         try{
-        //roomRepo.delete(room);
         adminService.deleteRoom(room);
         roomList.remove(room);
         }

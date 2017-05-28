@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.birgit.swhotel.service;
 
 import com.birgit.swhotel.entity.Booking;
@@ -53,7 +49,8 @@ public class AdminService {
                 if(!hotel.getName().equals("") && !hotel.getAddress().getCity().equals("") && !hotel.getAddress().getCountry().equals(""))
                 {
                     Hotel h = (Hotel) hotelRepo.persist(hotel);
-                return h;
+                    logger.info("hotel added "+h.getId());
+                    return h;
                 }
             }
             return null;
@@ -82,6 +79,7 @@ public class AdminService {
                 if(!roomType.getRoomName().equals(""))
                 {
                     RoomType rt = (RoomType) roomTypeRepo.persist(roomType);
+                    logger.info("roomtype added");
                     return rt;
                 }
             }
@@ -115,6 +113,7 @@ public class AdminService {
             bookingRepo.delete(b);
         }
         roomRepo.delete(room);
+        logger.info("room deleted");
         return room;
         }
         catch(Exception e)

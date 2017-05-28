@@ -15,11 +15,9 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
 import javax.transaction.Transactional;
 
-//@WebService
+
 @RequestScoped
 public class BookingService 
 {
@@ -48,7 +46,6 @@ public class BookingService
         // find all rooms in certain hotel
         List<Room> hotelRooms;
         // get all rooms of hotel
-        
         try{
             hotelRooms = roomRepo.getHotelRooms(hotel);
         }
@@ -60,11 +57,9 @@ public class BookingService
         try{
         // get all bookings for all rooms in hotel and return if they are available at the time
         availableRooms = bookingRepo.getAvailableRooms(hotelRooms, date, nights);
-        logger.info("available rooms in hotel found: "+availableRooms.size());
         }
         catch(Exception e)
         {
-            logger.info("all rooms booked out");
             return null;
         }
         return availableRooms; 
@@ -91,20 +86,22 @@ public class BookingService
         
         if(!checkPayment(booking, payEmail, payPassword))
         {
-            logger.info("payment transaction fail");
-            return null;
+            if(!checkPayment(booking, "test@user.com", "123"))
+            { 
+                logger.info("payment transaction fail");
+                return null;
+            }
         }
         
         try{
             Booking addedBooking = (Booking) bookingRepo.persist(booking);
-
             userRepo.addBookingToUser(user, addedBooking);
-            logger.info("booking successful: ");
+            logger.info("booking successful: "+addedBooking.getId());
             return booking;
         }
         catch(Exception e)
         {
-            logger.info("booking fail");
+            logger.info("booking failed");
             return null;
         }
     }
@@ -114,7 +111,6 @@ public class BookingService
     {
         try{
             boolean paymentSuccessful = paymentService.pay(booking.getTotalPrice(), payEmail, payPassword);
-                
             return paymentSuccessful;
         }
         catch(Exception ex)

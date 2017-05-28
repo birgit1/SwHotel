@@ -16,18 +16,15 @@ public class UserModel implements Serializable
 {
     
     @Inject 
-     UserService userService;
+    private UserService userService;
     
     @Inject
     private UserRepo userRepo;
     
-    @Inject
-    private BookingService bookingService;
     
     private User loggedInUser = null;
     private String email, password, name;
     private String message = null;
-    //private boolean wrongLogin = false;
     
     public String registerUser()
     {
@@ -45,7 +42,6 @@ public class UserModel implements Serializable
     
     public String login()
     {
-        
         if(authenticateUser()!= null)
             return "bookings";
         return null;
@@ -64,12 +60,9 @@ public class UserModel implements Serializable
         if(loggedInUser == null)
         {
             message = "authentification fail; wrong password or email";
-            //wrongLogin = true;
             return null;
         }
-        
-            message = "authentificated";
-            //wrongLogin = false;
+        message = "authentificated";
         email = null;
         password = null;
         name = null;
@@ -82,15 +75,8 @@ public class UserModel implements Serializable
         return "hotels";
     }
     
-    /*public boolean isWrongLogin()
-    {
-        return wrongLogin;
-    }*/
     
     // getter & setter *********************************************
-
-    
-
 
     public String getEmail() {
         return email;
@@ -123,58 +109,5 @@ public class UserModel implements Serializable
     public void setName(String name) {
         this.name = name;
     }
-    /// bookings ****************
-    /*private List<Booking> userBookings = new ArrayList<>();
-    
-    public String gotoLogin()
-    {
-        System.out.println("go to login");
-        return "login";
-    }
-    
-    /*
-    public String getBookingsForUser()
-    {
-        User u = userService.checkAuthentification();
-        if(u != null)
-        {
-            System.out.println("session user: "+u.toString());
-            userBookings = userRepo.getUserBookings(u);
-            return "bookings";
-        }
-        else
-        {
-            System.out.println("NO session user: login first");
-            return "login";
-        }
-    }
-    
-    
-    
-    public void deleteBooking(Booking booking)
-    {
-        bookingService.removeBooking(booking);
-        userBookings.remove(booking);
-    }
-    
-   
-    public List<Booking> getUserBookings() 
-    {
-        User u = userService.checkAuthentification();
-        if(u == null)
-        {
-            System.out.println("NO session user: login first");
-            login();
-            return null;
-        }
-        System.out.println(" session user: "+u.toString());
-            
-        userBookings = userRepo.getUserBookings(u);
-        return userBookings;
-    }
-
-    public void setUserBookings(List<Booking> userBookings) {
-        this.userBookings = userBookings;
-    }*/
     
 }

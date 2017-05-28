@@ -12,11 +12,10 @@ import javax.inject.Inject;
 @RequestScoped @Alternative
 public class PaymentService implements AbstractPaymentService, Serializable 
 {
-
-        @Inject
+    @Inject
     private Logger logger;
         
-        @Override 
+    @Override 
      public boolean pay(double amount, String paymentEmail, String paymentPassword)
      {
          

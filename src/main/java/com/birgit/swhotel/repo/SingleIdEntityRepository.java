@@ -2,9 +2,7 @@ package com.birgit.swhotel.repo;
 
 
 import com.birgit.swhotel.entity.SingleIdEntity;
-import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;

@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @RequestScoped
 public class RoomService {
     
-    @Inject
+  /*  @Inject
     private RoomRepo roomRepo;
     
     @Inject
@@ -44,4 +44,5 @@ public class RoomService {
             return null;
         }
     }
+*/
 }

@@ -6,15 +6,11 @@ import com.birgit.swhotel.entity.Room;
 import com.birgit.swhotel.entity.User;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -23,7 +19,7 @@ import javax.transaction.Transactional;
 public class BookingRepo extends SingleIdEntityRepository implements Serializable
 {
     @Inject
-     RoomRepo roomRepo;
+    private RoomRepo roomRepo;
     
     @Inject
     private Logger logger;
@@ -73,7 +69,6 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
                      available = roomBookings.get(j).compareRoomAvailability(arrivalDate, nights);
                      if(available == false)
                      {
-                         logger.info("room not available");
                          break;
                      }
                 }
@@ -84,8 +79,6 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
                     availableRooms.add(room);
             }
         }
-        logger.info("repo: #available rooms: "+availableRooms.size());
-        
         return removeDoubleItems(availableRooms);
     }
     
@@ -108,7 +101,6 @@ public class BookingRepo extends SingleIdEntityRepository implements Serializabl
             query.setParameter("parameter1", roomId);
   
             List<Booking> roomBookings = query.getResultList();
-            logger.info("bookings for room: "+roomBookings.size());
             return roomBookings;
     }
     

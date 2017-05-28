@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,8 +34,6 @@ public class HotelModel implements Serializable
     @Inject
      RoomRepo roomRepo;
     
-    @Inject 
-     UserRepo userRepo;
     
     @Inject
     private UserService userService;
@@ -56,12 +53,10 @@ public class HotelModel implements Serializable
     
     private String search = null;
     
-    // ##### not working: show result 
+    
     public void searchHotel()
     {
-        System.out.println("search for hotel: "+search);
         List<Hotel> searchResult = hotelRepo.findHotelByString(search);
-        System.out.println("#hotels: "+this.hotels.size());
         for(int i=0; i<hotels.size(); i++)
         {
             if(!searchResult.contains(hotels.get(i)))
@@ -72,17 +67,12 @@ public class HotelModel implements Serializable
         }
     }
     
-    /*public String startBookingProcess()
-    {
-        return "hotels";
-    }*/
     
     public String showDetail(Hotel hotel)
     {
         currentHotel = hotel;
         currentBooking = new Booking();
-        System.out.println("SHOW HOTEL DETAL");
-        //loadRooms();
+        
         getAvailableRooms();
         return "hotelDetail";
     }
@@ -132,17 +122,12 @@ public class HotelModel implements Serializable
     
     public String bookRoom(Room room)
     {
-        //currentRoom = room;
-        //currentBooking = new Booking();
         currentBooking.setRoom(room);
-        //currentBooking.setArrival(DateUtils.stringToDate(dateDay, dateMonth, dateYear));
-        //currentBooking.setNights(nights);
-        User user = userService.checkAuthentification();
+         User user = userService.checkAuthentification();
         if(user == null)
             return "loginOrRegister";
         
         currentBooking.setUser(user);
-       
         return "bookingDetail";
     }
     
@@ -153,20 +138,13 @@ public class HotelModel implements Serializable
     @Transactional
     public String makeBooking()
     {
-        System.out.println("model: make bboking");
-        //User user = userService.checkAuthentification();
-        //System.out.println(user.toString());
-        //currentBooking.setUser(user);
         Booking booking = bookingService.makeBooking(currentBooking, payEmail, payPassword);
-        
         payPassword=null;
         payEmail=null;
         
         if(booking == null)
             return "bookingFail";
-        System.out.println("2 DATE: "+booking.getArrival());
         
-        //getBookingsForUser();
         return "bookings";
     }
     
@@ -278,9 +256,6 @@ public class HotelModel implements Serializable
     public void setPayPassword(String payPassword) {
         this.payPassword = payPassword;
     }
-    
-    
-    
-    
+  
 }
  

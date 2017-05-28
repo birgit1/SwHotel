@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 public class RoomRepo extends SingleIdEntityRepository implements Serializable
 {
     @Inject
-    Logger logger;
+    private Logger logger;
     
     public RoomRepo()
     {
